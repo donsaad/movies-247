@@ -1,10 +1,11 @@
 package com.donsaad.movies247;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,10 +18,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private GridView mGridView;
+    private static final String POSTER_PATH_KEY = "poster_path";
+    private static final String MOVIES_KEY = "results";
+    private String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
+    private List<String> posters;
+    private MoviesGridAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +36,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
-        new FetchMoviesTask().execute("KEY_HERE"); // replace with the key
+        // after this task is executed, posters paths would be ready in "posters"
+        new FetchMoviesTask().execute("KEY HERE!"); // replace with the key
 
     }
 
     private void init() {
         mGridView = (GridView) findViewById(R.id.grid_movies);
+        posters = new ArrayList<>();
     }
 
     /**
@@ -47,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             // verifying parameters
-            if(params.length == 0) {
-                return  null;
+            if (params.length == 0) {
+                return null;
             }
             HttpURLConnection httpURLConnection = null;
             BufferedReader reader = null;
@@ -70,19 +80,17 @@ public class MainActivity extends AppCompatActivity {
                     buffer.append(line + "\n");
                 }
 
-                if(buffer.length() == 0) {
+                if (buffer.length() == 0) {
                     // no data
                     return null;
                 }
 
                 return buffer.toString();
-            }
-            catch (MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                Log.e(LOG_TAG, "Connection Error: ",e);
-            }
-            finally {
+                Log.e(LOG_TAG, "Connection Error: ", e);
+            } finally {
                 if (httpURLConnection != null) {
                     httpURLConnection.disconnect();
                 }
@@ -100,15 +108,25 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            if(s != null) {
+            if (s != null) {
                 try {
-                    JSONArray movies = new JSONObject(s).getJSONArray("results");
-                    // JSON respone test
-                    Log.i(LOG_TAG, movies.getJSONObject(0).toString());
+                    JSONArray movies = new JSONObject(s).getJSONArray(MOVIES_KEY);
+                    JSONObject movie = null;
+                    for (int i = 0; i < 20; i++) {
+                        movie = movies.getJSONObject(i);
+                        posters.add((BASE_POSTER_URL +
+                                movie.getString(POSTER_PATH_KEY)));
+                    }
+                    // updating ui after getting posters
+                    adapter = new MoviesGridAdapter(MainActivity.this, R.layout.grid_item_movies, posters);
+                    mGridView.setAdapter(adapter);
                 } catch (JSONException e) {
-                    Log.e(LOG_TAG, "Error parsing json: ", e);
+                    Log.e(LOG_TAG, "Error parsing JSON: ", e);
                 }
+            } else {
+                Log.e(LOG_TAG, "Error: FetchMoviesTask null result.");
             }
+
         } // end of onPostExecute
 
     } // end of FetchMoviesTask
