@@ -1,9 +1,12 @@
 package com.donsaad.movies247;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -23,12 +26,19 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private GridView mGridView;
-    private static final String POSTER_PATH_KEY = "poster_path";
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
+    public static final String MOVIE_OVERVIEW_KEY = "overview";
+    public static final String MOVIE_TITLE_KEY = "original_title";
+    public static final String POSTER_PATH_KEY = "poster_path";
     private static final String MOVIES_KEY = "results";
-    private String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
+
+    private GridView mGridView;
     private List<String> posters;
     private MoviesGridAdapter adapter;
+    private JSONArray movies;
+    private JSONObject movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +47,28 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         // after this task is executed, posters paths would be ready in "posters"
-        new FetchMoviesTask().execute("KEY HERE!"); // replace with the key
+        new FetchMoviesTask().execute("YOUR KEY HERE"); // TODO: replace with your key
 
     }
 
     private void init() {
         mGridView = (GridView) findViewById(R.id.grid_movies);
         posters = new ArrayList<>();
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    movie = movies.getJSONObject(position);
+                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                    intent.putExtra(MOVIE_OVERVIEW_KEY, movie.getString(MOVIE_OVERVIEW_KEY));
+                    intent.putExtra(MOVIE_TITLE_KEY, movie.getString(MOVIE_TITLE_KEY));
+                    intent.putExtra(POSTER_PATH_KEY, posters.get(position));
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    Log.e(LOG_TAG, "Error getting movie from within GridView listner", e);
+                }
+            }
+        });
     }
 
     /**
@@ -51,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
      * and it return the JSON response as a String
      */
     public class FetchMoviesTask extends AsyncTask<String, Void, String> {
-
-        private final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
 
         @Override
         protected String doInBackground(String... params) {
@@ -110,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             if (s != null) {
                 try {
-                    JSONArray movies = new JSONObject(s).getJSONArray(MOVIES_KEY);
-                    JSONObject movie = null;
+                    movies = new JSONObject(s).getJSONArray(MOVIES_KEY);
+                    movie = null;
                     for (int i = 0; i < 20; i++) {
                         movie = movies.getJSONObject(i);
                         posters.add((BASE_POSTER_URL +
