@@ -44,6 +44,33 @@
                 />
 
             <TextView
+                android:id="@+id/tv_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015"
+                android:textSize="23sp"
+                android:textColor="@color/primary_text"
+                android:layout_toRightOf="@+id/img_poster"
+                android:layout_toEndOf="@+id/img_poster"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                />
+
+            <TextView
+                android:id="@+id/tv_vote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:textSize="18sp"
+                android:text="8.3/10"
+                android:layout_below="@+id/tv_release_date"
+                android:layout_alignLeft="@+id/tv_release_date"
+                android:layout_alignStart="@+id/tv_release_date"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                />
+
+            <TextView
                 android:id="@+id/tv_overview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

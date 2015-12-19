@@ -18,6 +18,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private TextView synopsis;
     private TextView title;
+    private TextView date;
+    private TextView vote;
     private ImageView poster;
 
     @Override
@@ -47,6 +49,8 @@ public class DetailActivity extends AppCompatActivity {
         }
         synopsis = (TextView) findViewById(R.id.tv_overview);
         title = (TextView) findViewById(R.id.tv_title);
+        date = (TextView) findViewById(R.id.tv_release_date);
+        vote = (TextView) findViewById(R.id.tv_vote);
         poster = (ImageView) findViewById(R.id.img_poster);
     }
 
@@ -55,6 +59,8 @@ public class DetailActivity extends AppCompatActivity {
         if(extras != null) {
             synopsis.setText(extras.getString(MainActivity.MOVIE_OVERVIEW_KEY));
             title.setText(extras.getString(MainActivity.MOVIE_TITLE_KEY));
+            date.setText(extras.getString(MainActivity.MOVIE_RELEASE_KEY));
+            vote.setText(extras.getString(MainActivity.MOVIE_VOTE_AVG_KEY) + "/10");
             Picasso.with(this).load(extras.getString(MainActivity.POSTER_PATH_KEY)).into(poster);
         }
         else {

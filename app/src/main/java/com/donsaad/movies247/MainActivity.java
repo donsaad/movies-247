@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String SORT_BY_RATE = "vote_average.desc";
     private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
     public static final String MOVIE_OVERVIEW_KEY = "overview";
+    public static final String MOVIE_VOTE_AVG_KEY = "vote_average";
+    public static final String MOVIE_RELEASE_KEY = "release_date";
     public static final String MOVIE_TITLE_KEY = "original_title";
     public static final String POSTER_PATH_KEY = "poster_path";
     private static final String MOVIES_KEY = "results";
@@ -68,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                     intent.putExtra(MOVIE_OVERVIEW_KEY, movie.getString(MOVIE_OVERVIEW_KEY));
                     intent.putExtra(MOVIE_TITLE_KEY, movie.getString(MOVIE_TITLE_KEY));
+                    intent.putExtra(MOVIE_VOTE_AVG_KEY, movie.getString(MOVIE_VOTE_AVG_KEY));
+                    intent.putExtra(MOVIE_RELEASE_KEY, movie.getString(MOVIE_RELEASE_KEY));
                     intent.putExtra(POSTER_PATH_KEY, posters.get(position));
+
                     startActivity(intent);
                 } catch (JSONException e) {
                     Log.e(LOG_TAG, "Error getting movie from within GridView listner", e);
