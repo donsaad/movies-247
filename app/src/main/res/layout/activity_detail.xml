@@ -10,11 +10,11 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
-        android:textSize="35sp"
-        android:textColor="@color/white"
+        android:background="@color/primary_light"
+        android:textSize="20sp"
+        android:textColor="@color/primary_text"
         android:padding="@dimen/activity_vertical_margin"
-        android:maxLines="1"
+        android:maxLines="2"
         android:ellipsize="end"
         android:elevation="7dp"
         />
@@ -50,6 +50,7 @@
                 android:layout_below="@+id/img_poster"
                 android:textColor="@color/primary_text"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textSize="17sp"
                 />
 
         </RelativeLayout>

@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    private static final String API_KEY = "425c4970c74d68d62b533df1a9f65f67"; // TODO: replace with your key
+    private static final String SORT_BY_POPULARITY = "popularity.desc";
+    private static final String SORT_BY_RATE = "vote_average.desc";
     private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
     public static final String MOVIE_OVERVIEW_KEY = "overview";
     public static final String MOVIE_TITLE_KEY = "original_title";
@@ -47,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         // after this task is executed, posters paths would be ready in "posters"
-        new FetchMoviesTask().execute("YOUR KEY HERE"); // TODO: replace with your key
+        new FetchMoviesTask().execute(SORT_BY_POPULARITY);
 
     }
 
@@ -71,6 +77,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_sort_by_popular) {
+            new FetchMoviesTask().execute(SORT_BY_POPULARITY);
+        }
+        else if(id == R.id.action_sort_by_rate) {
+            new FetchMoviesTask().execute(SORT_BY_RATE);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * AsyncTask parameter is the API key
      * and it return the JSON response as a String
@@ -87,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
             BufferedReader reader = null;
 
             try {
-                String baseUrl = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
-                baseUrl += params[0];
+                String baseUrl = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
+                        params[0] + "&api_key=" + API_KEY;
                 URL url = new URL(baseUrl);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
@@ -135,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     movies = new JSONObject(s).getJSONArray(MOVIES_KEY);
                     movie = null;
+                    posters.clear();
                     for (int i = 0; i < 20; i++) {
                         movie = movies.getJSONObject(i);
                         posters.add((BASE_POSTER_URL +
