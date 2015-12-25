@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         else if(id == R.id.action_sort_by_rate) {
             new FetchMoviesTask().execute(SORT_BY_RATE);
         }
+        else if(id == R.id.action_sort_by_fav) {
+            // // TODO: 12/25/2015 fav 
+        }
         return super.onOptionsItemSelected(item);
     }
 
