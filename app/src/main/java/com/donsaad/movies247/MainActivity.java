@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    public static final String API_KEY = "425c4970c74d68d62b533df1a9f65f67"; // TODO: replace with your key
+    public static final String API_KEY = ""; // TODO: replace with your key
     private static final String SORT_BY_POPULARITY = "popularity.desc";
     private static final String SORT_BY_RATE = "vote_average.desc";
     private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
