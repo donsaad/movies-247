@@ -70,6 +70,15 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/btn_star_big_on"
+                android:layout_below="@+id/tv_vote"
+                android:layout_alignLeft="@+id/tv_vote"
+
+                />
+
             <TextView
                 android:id="@+id/tv_overview"
                 android:layout_width="wrap_content"
@@ -78,6 +87,41 @@
                 android:textColor="@color/primary_text"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:textSize="17sp"
+                android:text="ioioioioioioiooiio"
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/primary_text"
+                android:layout_below="@+id/tv_overview"
+                android:id="@+id/ll"
+                />
+
+            <ListView
+                android:id="@+id/list_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/primary_text"
+                android:layout_below="@+id/list_trailers"
+                android:id="@+id/ll2"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <ListView
+                android:id="@+id/list_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll2"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 />
 
         </RelativeLayout>

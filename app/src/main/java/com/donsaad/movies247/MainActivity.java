@@ -31,13 +31,14 @@ public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private static final String API_KEY = "425c4970c74d68d62b533df1a9f65f67"; // TODO: replace with your key
+    public static final String API_KEY = "425c4970c74d68d62b533df1a9f65f67"; // TODO: replace with your key
     private static final String SORT_BY_POPULARITY = "popularity.desc";
     private static final String SORT_BY_RATE = "vote_average.desc";
     private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
     public static final String MOVIE_OVERVIEW_KEY = "overview";
     public static final String MOVIE_VOTE_AVG_KEY = "vote_average";
     public static final String MOVIE_RELEASE_KEY = "release_date";
+    public static final String MOVIE_ID_KEY = "id";
     public static final String MOVIE_TITLE_KEY = "original_title";
     public static final String POSTER_PATH_KEY = "poster_path";
     private static final String MOVIES_KEY = "results";
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra(MOVIE_TITLE_KEY, movie.getString(MOVIE_TITLE_KEY));
                     intent.putExtra(MOVIE_VOTE_AVG_KEY, movie.getString(MOVIE_VOTE_AVG_KEY));
                     intent.putExtra(MOVIE_RELEASE_KEY, movie.getString(MOVIE_RELEASE_KEY));
+                    intent.putExtra(MOVIE_ID_KEY, movie.getInt(MOVIE_ID_KEY));
                     intent.putExtra(POSTER_PATH_KEY, posters.get(position));
 
                     startActivity(intent);
