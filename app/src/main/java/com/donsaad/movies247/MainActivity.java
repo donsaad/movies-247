@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,9 +29,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String LOG_TAG = MainActivity.class.getSimpleName();
+    public final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private static final String API_KEY = "425c4970c74d68d62b533df1a9f65f67"; // TODO: replace with your key
+    private static final String API_KEY = ""; // TODO: replace with your key
     private static final String SORT_BY_POPULARITY = "popularity.desc";
     private static final String SORT_BY_RATE = "vote_average.desc";
     private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String POSTER_PATH_KEY = "poster_path";
     private static final String MOVIES_KEY = "results";
 
-    private GridView mGridView;
-    private List<String> posters;
-    private MoviesGridAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<Movie> movieList;
+    private RecyclerAdapter adapter;
     private JSONArray movies;
     private JSONObject movie;
 
@@ -54,32 +54,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
-        // after this task is executed, posters paths would be ready in "posters"
         new FetchMoviesTask().execute(SORT_BY_POPULARITY);
 
     }
 
     private void init() {
-        mGridView = (GridView) findViewById(R.id.grid_movies);
-        posters = new ArrayList<>();
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    movie = movies.getJSONObject(position);
-                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                    intent.putExtra(MOVIE_OVERVIEW_KEY, movie.getString(MOVIE_OVERVIEW_KEY));
-                    intent.putExtra(MOVIE_TITLE_KEY, movie.getString(MOVIE_TITLE_KEY));
-                    intent.putExtra(MOVIE_VOTE_AVG_KEY, movie.getString(MOVIE_VOTE_AVG_KEY));
-                    intent.putExtra(MOVIE_RELEASE_KEY, movie.getString(MOVIE_RELEASE_KEY));
-                    intent.putExtra(POSTER_PATH_KEY, posters.get(position));
+        movieList = new ArrayList<>();
 
-                    startActivity(intent);
-                } catch (JSONException e) {
-                    Log.e(LOG_TAG, "Error getting movie from within GridView listner", e);
-                }
-            }
-        });
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
     }
 
     @Override
@@ -167,15 +153,22 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     movies = new JSONObject(s).getJSONArray(MOVIES_KEY);
                     movie = null;
-                    posters.clear();
+                    movieList.clear();
+                    Movie m;
                     for (int i = 0; i < 20; i++) {
                         movie = movies.getJSONObject(i);
-                        posters.add((BASE_POSTER_URL +
-                                movie.getString(POSTER_PATH_KEY)));
+                        m = new Movie();
+                        m.setPoster(BASE_POSTER_URL +
+                                movie.getString(POSTER_PATH_KEY));
+                        m.setOverview(movie.getString(MOVIE_OVERVIEW_KEY));
+                        m.setVoteAverage(movie.getDouble(MOVIE_VOTE_AVG_KEY));
+                        m.setReleaseDate(movie.getString(MOVIE_RELEASE_KEY));
+                        m.setTitle(movie.getString(MOVIE_TITLE_KEY));
+                        movieList.add(m);
                     }
                     // updating ui after getting posters
-                    adapter = new MoviesGridAdapter(MainActivity.this, R.layout.grid_item_movies, posters);
-                    mGridView.setAdapter(adapter);
+                    adapter = new RecyclerAdapter(MainActivity.this, movieList);
+                    recyclerView.setAdapter(adapter);
                 } catch (JSONException e) {
                     Log.e(LOG_TAG, "Error parsing JSON: ", e);
                 }

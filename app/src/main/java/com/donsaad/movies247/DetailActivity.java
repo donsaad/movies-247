@@ -60,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
             synopsis.setText(extras.getString(MainActivity.MOVIE_OVERVIEW_KEY));
             title.setText(extras.getString(MainActivity.MOVIE_TITLE_KEY));
             date.setText(extras.getString(MainActivity.MOVIE_RELEASE_KEY));
-            vote.setText(extras.getString(MainActivity.MOVIE_VOTE_AVG_KEY) + "/10");
+            vote.setText(extras.getDouble(MainActivity.MOVIE_VOTE_AVG_KEY) + "/10");
             Picasso.with(this).load(extras.getString(MainActivity.POSTER_PATH_KEY)).into(poster);
         }
         else {

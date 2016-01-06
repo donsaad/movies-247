@@ -5,15 +5,10 @@
     android:layout_height="match_parent"
     tools:context="com.donsaad.movies247.MainActivity">
 
-    <GridView
-        android:id="@+id/grid_movies"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"
-        android:verticalSpacing="0dp"
-        android:horizontalSpacing="0dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        />
+        android:scrollbars="vertical"/>
 
 </FrameLayout>
