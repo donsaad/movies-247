@@ -55,7 +55,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CardVi
             super(itemView);
             this.mImageHolder = (ImageView) itemView.findViewById(R.id.img_holder);
             this.mTitle = (TextView) itemView.findViewById(R.id.tv_title);
-            Toast.makeText(mContext, "setting listener", Toast.LENGTH_SHORT).show();
             mImageHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
