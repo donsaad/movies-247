@@ -39,18 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CardVi
     public void onBindViewHolder(CardViewHolder holder, final int position) {
         Picasso.with(mContext).load(movieList.get(position).getPoster()).into(holder.mImageHolder);
         holder.mTitle.setText(movieList.get(position).getTitle());
-        holder.mImageHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra(MainActivity.MOVIE_POSTER_PATH_KEY, movieList.get(position).getPoster());
-                intent.putExtra(MainActivity.MOVIE_OVERVIEW_KEY, movieList.get(position).getOverview());
-                intent.putExtra(MainActivity.MOVIE_VOTE_AVG_KEY, movieList.get(position).getVoteAverage());
-                intent.putExtra(MainActivity.MOVIE_RELEASE_KEY, movieList.get(position).getReleaseDate());
-                intent.putExtra(MainActivity.MOVIE_TITLE_KEY, movieList.get(position).getTitle());
-                mContext.startActivity(intent);
-            }
-        });
+
     }
 
     @Override
@@ -66,6 +55,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CardVi
             super(itemView);
             this.mImageHolder = (ImageView) itemView.findViewById(R.id.img_holder);
             this.mTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            Toast.makeText(mContext, "setting listener", Toast.LENGTH_SHORT).show();
+            mImageHolder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DetailActivity.class);
+                    intent.putExtra(MainActivity.MOVIE_POSTER_PATH_KEY, movieList.get(getAdapterPosition()).getPoster());
+                    intent.putExtra(MainActivity.MOVIE_OVERVIEW_KEY, movieList.get(getAdapterPosition()).getOverview());
+                    intent.putExtra(MainActivity.MOVIE_VOTE_AVG_KEY, movieList.get(getAdapterPosition()).getVoteAverage());
+                    intent.putExtra(MainActivity.MOVIE_RELEASE_KEY, movieList.get(getAdapterPosition()).getReleaseDate());
+                    intent.putExtra(MainActivity.MOVIE_TITLE_KEY, movieList.get(getAdapterPosition()).getTitle());
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
     }

@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         dataFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
             @Override
             public void onDataFetched(String data) {
-                Toast.makeText(MainActivity.this, "fetched data", Toast.LENGTH_SHORT).show();
                 MovieParser parser = new MovieParser();
                 movieList = parser.parseJson(data);
                 adapter = new RecyclerAdapter(MainActivity.this, movieList);
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDataError(int errorCode) {
-                Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
+
             }
         });
         dataFetchTask.execute(MOVIES_SORT_BY_POPULARITY);
