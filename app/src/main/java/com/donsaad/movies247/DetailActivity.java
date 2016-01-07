@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -61,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
             title.setText(extras.getString(MainActivity.MOVIE_TITLE_KEY));
             date.setText(extras.getString(MainActivity.MOVIE_RELEASE_KEY));
             vote.setText(extras.getDouble(MainActivity.MOVIE_VOTE_AVG_KEY) + "/10");
-            Picasso.with(this).load(extras.getString(MainActivity.POSTER_PATH_KEY)).into(poster);
+            Picasso.with(this).load(extras.getString(MainActivity.MOVIE_POSTER_PATH_KEY)).into(poster);
         }
         else {
             Log.e(LOG_TAG, "Error getting extras!");

@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="7dp"
-    app:cardElevation="5dp">
+    app:cardElevation="@dimen/cardview_default_elevation">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -30,9 +30,11 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@id/divider"
             android:maxLines="2"
+            android:ellipsize="end"
             android:padding="10dp"
             android:text="The Godfather III"
-            android:textSize="16sp" />
+            android:textSize="15sp"
+            />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

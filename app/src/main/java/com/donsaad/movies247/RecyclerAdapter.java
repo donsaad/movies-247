@@ -3,16 +3,14 @@ package com.donsaad.movies247;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CardVi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra(MainActivity.POSTER_PATH_KEY, movieList.get(position).getPoster());
+                intent.putExtra(MainActivity.MOVIE_POSTER_PATH_KEY, movieList.get(position).getPoster());
                 intent.putExtra(MainActivity.MOVIE_OVERVIEW_KEY, movieList.get(position).getOverview());
                 intent.putExtra(MainActivity.MOVIE_VOTE_AVG_KEY, movieList.get(position).getVoteAverage());
                 intent.putExtra(MainActivity.MOVIE_RELEASE_KEY, movieList.get(position).getReleaseDate());
