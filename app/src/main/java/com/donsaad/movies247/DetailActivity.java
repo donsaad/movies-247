@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements OnDataFetchListener {
 
     private final String LOG_TAG = DetailActivity.class.getSimpleName();
 
@@ -56,14 +56,24 @@ public class DetailActivity extends AppCompatActivity {
     private void setDataIntoViews() {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            synopsis.setText(extras.getString(MainActivity.MOVIE_OVERVIEW_KEY));
-            title.setText(extras.getString(MainActivity.MOVIE_TITLE_KEY));
-            date.setText(extras.getString(MainActivity.MOVIE_RELEASE_KEY));
-            vote.setText(extras.getDouble(MainActivity.MOVIE_VOTE_AVG_KEY) + "/10");
-            Picasso.with(this).load(extras.getString(MainActivity.MOVIE_POSTER_PATH_KEY)).into(poster);
+            synopsis.setText(extras.getString(MoviesActivity.MOVIE_OVERVIEW_KEY));
+            title.setText(extras.getString(MoviesActivity.MOVIE_TITLE_KEY));
+            date.setText(extras.getString(MoviesActivity.MOVIE_RELEASE_KEY));
+            vote.setText(extras.getDouble(MoviesActivity.MOVIE_VOTE_AVG_KEY) + "/10");
+            Picasso.with(this).load(extras.getString(MoviesActivity.MOVIE_POSTER_PATH_KEY)).into(poster);
         }
         else {
             Log.e(LOG_TAG, "Error getting extras!");
         }
+    }
+
+    @Override
+    public void onDataFetched(String data) {
+
+    }
+
+    @Override
+    public void onDataError(int errorCode) {
+
     }
 }

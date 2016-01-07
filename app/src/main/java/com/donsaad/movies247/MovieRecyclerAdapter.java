@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -19,12 +18,12 @@ import java.util.List;
  * Created by donsaad on 12/17/2015.
  * Adapter to fetch posters and populate them.
  */
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CardViewHolder> {
+public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.CardViewHolder> {
 
     private Context mContext;
     private List<Movie> movieList = new ArrayList<>();
 
-    public RecyclerAdapter(Context context,List<Movie> list) {
+    public MovieRecyclerAdapter(Context context, List<Movie> list) {
         this.mContext = context;
         this.movieList = list;
     }
@@ -59,11 +58,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CardVi
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, DetailActivity.class);
-                    intent.putExtra(MainActivity.MOVIE_POSTER_PATH_KEY, movieList.get(getAdapterPosition()).getPoster());
-                    intent.putExtra(MainActivity.MOVIE_OVERVIEW_KEY, movieList.get(getAdapterPosition()).getOverview());
-                    intent.putExtra(MainActivity.MOVIE_VOTE_AVG_KEY, movieList.get(getAdapterPosition()).getVoteAverage());
-                    intent.putExtra(MainActivity.MOVIE_RELEASE_KEY, movieList.get(getAdapterPosition()).getReleaseDate());
-                    intent.putExtra(MainActivity.MOVIE_TITLE_KEY, movieList.get(getAdapterPosition()).getTitle());
+                    intent.putExtra(MoviesActivity.MOVIE_POSTER_PATH_KEY, movieList.get(getAdapterPosition()).getPoster());
+                    intent.putExtra(MoviesActivity.MOVIE_OVERVIEW_KEY, movieList.get(getAdapterPosition()).getOverview());
+                    intent.putExtra(MoviesActivity.MOVIE_VOTE_AVG_KEY, movieList.get(getAdapterPosition()).getVoteAverage());
+                    intent.putExtra(MoviesActivity.MOVIE_RELEASE_KEY, movieList.get(getAdapterPosition()).getReleaseDate());
+                    intent.putExtra(MoviesActivity.MOVIE_TITLE_KEY, movieList.get(getAdapterPosition()).getTitle());
                     mContext.startActivity(intent);
                 }
             });

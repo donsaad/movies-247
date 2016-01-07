@@ -20,17 +20,17 @@ public class MovieParser {
         JSONArray array;
         JSONObject object;
         try {
-            array = (new JSONObject(s)).getJSONArray(MainActivity.MOVIES_KEY);
+            array = (new JSONObject(s)).getJSONArray(MoviesActivity.MOVIES_KEY);
             movies = new ArrayList<>();
             for (int i = 0, length = array.length(); i < length; i++) {
                 object = array.getJSONObject(i);
                 movie = new Movie();
-                movie.setPoster(MainActivity.BASE_POSTER_URL +
-                        object.getString(MainActivity.MOVIE_POSTER_PATH_KEY));
-                movie.setOverview(object.getString(MainActivity.MOVIE_OVERVIEW_KEY));
-                movie.setVoteAverage(object.getDouble(MainActivity.MOVIE_VOTE_AVG_KEY));
-                movie.setReleaseDate(object.getString(MainActivity.MOVIE_RELEASE_KEY));
-                movie.setTitle(object.getString(MainActivity.MOVIE_TITLE_KEY));
+                movie.setPoster(MoviesActivity.BASE_POSTER_URL +
+                        object.getString(MoviesActivity.MOVIE_POSTER_PATH_KEY));
+                movie.setOverview(object.getString(MoviesActivity.MOVIE_OVERVIEW_KEY));
+                movie.setVoteAverage(object.getDouble(MoviesActivity.MOVIE_VOTE_AVG_KEY));
+                movie.setReleaseDate(object.getString(MoviesActivity.MOVIE_RELEASE_KEY));
+                movie.setTitle(object.getString(MoviesActivity.MOVIE_TITLE_KEY));
                 movies.add(movie);
             }
 

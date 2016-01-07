@@ -1,6 +1,5 @@
 package com.donsaad.movies247;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,21 +9,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnDataFetchListener {
+public class MoviesActivity extends AppCompatActivity implements OnDataFetchListener {
 
-    public final String LOG_TAG = MainActivity.class.getSimpleName();
+    public final String LOG_TAG = MoviesActivity.class.getSimpleName();
 
-    private static final String API_KEY = ""; // TODO: replace with your key
+    public static final String API_KEY = "425c4970c74d68d62b533df1a9f65f67"; // TODO: replace with your key
     private static final String FETCH_MOVIES_BY_POPULARITY = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
     private static final String FETCH_MOVIES_BY_RATE = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=";
     public static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
@@ -56,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements OnDataFetchListen
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
     }
 
     @Override
@@ -86,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnDataFetchListen
     public void onDataFetched(String data) {
         MovieParser parser = new MovieParser();
         moviesList = parser.parseJson(data);
-        recyclerView.setAdapter(new RecyclerAdapter(MainActivity.this, moviesList));
+        recyclerView.setAdapter(new MovieRecyclerAdapter(MoviesActivity.this, moviesList));
     }
 
     @Override
@@ -94,78 +85,5 @@ public class MainActivity extends AppCompatActivity implements OnDataFetchListen
         Log.e(LOG_TAG, "Error: DataFetchTask Error Code: " + errorCode);
     }
 
-    /**
-     * AsyncTask parameter is the endpoint to fetch data from it
-     * and it return the JSON response as a String
-     */
-    public class DataFetchTask extends AsyncTask<String, Void, String> {
-
-        private OnDataFetchListener onDataFetchListener;
-
-        void setOnDataFetchListener(OnDataFetchListener listener) {
-            onDataFetchListener = listener;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            // verifying parameters
-            if (params.length == 0) {
-                return null;
-            }
-            HttpURLConnection httpURLConnection = null;
-            BufferedReader reader = null;
-
-            try {
-                URL url = new URL(params[0] + API_KEY);
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("GET");
-                httpURLConnection.connect();
-
-                InputStream inputStream = httpURLConnection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuffer buffer = new StringBuffer();
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
-                }
-
-                if (buffer.length() == 0) {
-                    // no data
-                    return null;
-                }
-
-                return buffer.toString();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Connection Error: ", e);
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing stream", e);
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if (s != null) {
-                onDataFetchListener.onDataFetched(s);
-            } else {
-                onDataFetchListener.onDataError(0);
-            }
-
-        } // end of onPostExecute
-
-    } // end of DataFetchTask
 
 }
