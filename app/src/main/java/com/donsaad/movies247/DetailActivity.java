@@ -1,7 +1,5 @@
 package com.donsaad.movies247;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -14,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.donsaad.movies247.movies.Movie;
+import com.donsaad.movies247.networking.DataFetchTask;
+import com.donsaad.movies247.networking.OnDataFetchListener;
 import com.donsaad.movies247.trailers.Trailer;
 import com.donsaad.movies247.trailers.TrailerParser;
 import com.donsaad.movies247.trailers.TrailersListAdapter;

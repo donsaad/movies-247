@@ -1,7 +1,9 @@
-package com.donsaad.movies247;
+package com.donsaad.movies247.networking;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.donsaad.movies247.movies.MoviesActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;

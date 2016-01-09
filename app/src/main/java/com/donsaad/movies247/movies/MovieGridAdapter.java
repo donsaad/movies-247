@@ -1,4 +1,4 @@
-package com.donsaad.movies247;
+package com.donsaad.movies247.movies;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.donsaad.movies247.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

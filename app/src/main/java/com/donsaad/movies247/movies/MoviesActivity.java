@@ -1,4 +1,4 @@
-package com.donsaad.movies247;
+package com.donsaad.movies247.movies;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.donsaad.movies247.networking.DataFetchTask;
+import com.donsaad.movies247.DetailActivity;
+import com.donsaad.movies247.networking.OnDataFetchListener;
+import com.donsaad.movies247.R;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class MoviesActivity extends AppCompatActivity implements OnDataFetchListener {
 

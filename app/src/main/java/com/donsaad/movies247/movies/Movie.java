@@ -1,4 +1,4 @@
-package com.donsaad.movies247;
+package com.donsaad.movies247.movies;
 
 public class Movie {
 
