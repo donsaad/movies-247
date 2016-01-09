@@ -61,7 +61,7 @@ public class MovieGridAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public class ViewHolder {
+    private class ViewHolder {
         ImageView mImageHolder;
         TextView mTitle;
     }

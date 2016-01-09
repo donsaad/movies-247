@@ -1,10 +1,11 @@
-package com.donsaad.movies247;
+package com.donsaad.movies247.reviews;
 
 /**
  * Created by donsaad on 12/25/2015.
  * Review data model
  */
 public class Review {
+
 
     private String id;
     private String author;

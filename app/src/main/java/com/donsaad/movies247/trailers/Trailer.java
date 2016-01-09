@@ -1,10 +1,15 @@
-package com.donsaad.movies247;
+package com.donsaad.movies247.trailers;
 
 /**
  * Created by donsaad on 12/25/2015.
  * Trailer data model
  */
 public class Trailer {
+
+    public static final String TRAILER_JSON_KEY = "results";
+    public static final String TRAILER_ID_KEY = "id";
+    public static final String TRAILER_VIDEO_KEY = "key";
+    public static final String TRAILER_NAME_KEY = "name";
 
     private String id;
     private String key;

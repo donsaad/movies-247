@@ -48,6 +48,7 @@ public class MoviesActivity extends AppCompatActivity implements OnDataFetchList
                 intent.putExtra(Movie.MOVIE_VOTE_AVG_KEY, moviesList.get(position).getVoteAverage());
                 intent.putExtra(Movie.MOVIE_RELEASE_KEY, moviesList.get(position).getReleaseDate());
                 intent.putExtra(Movie.MOVIE_TITLE_KEY, moviesList.get(position).getTitle());
+                intent.putExtra(Movie.MOVIE_ID_KEY, moviesList.get(position).getId());
                 startActivity(intent);
             }
         });
