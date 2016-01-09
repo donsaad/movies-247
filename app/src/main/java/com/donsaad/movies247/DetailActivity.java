@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.donsaad.movies247.movies.Movie;
 import com.donsaad.movies247.networking.DataFetchTask;
 import com.donsaad.movies247.networking.OnDataFetchListener;
+import com.donsaad.movies247.reviews.ReviewParser;
 import com.donsaad.movies247.trailers.Trailer;
 import com.donsaad.movies247.trailers.TrailerParser;
 import com.donsaad.movies247.trailers.TrailersListAdapter;
@@ -26,12 +27,14 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements OnDataFetchListener {
+public class DetailActivity extends AppCompatActivity {
 
     private final String LOG_TAG = DetailActivity.class.getSimpleName();
-    private static final String FETCH_TRAILERS = "http://api.themoviedb.org/3/movie/";
+    private static final String DATA_FETCH_URL = "http://api.themoviedb.org/3/movie/";
     private static final String TRAILER_PARAM = "/videos?api_key=";
     private static final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
+    private static final String REVIEW_PARAM = "/reviews?api_key=";
+
 
     private ArrayList<Trailer> trailers;
     private TextView synopsis;
@@ -49,14 +52,53 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
         init();
         setDataIntoViews();
 
-        DataFetchTask dataFetchTask = new DataFetchTask();
-        dataFetchTask.setOnDataFetchListener(this);
-        dataFetchTask.execute(FETCH_TRAILERS + movieId + TRAILER_PARAM);
+        DataFetchTask trailerFetchTask = new DataFetchTask();
+        trailerFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
+            @Override
+            public void onDataFetched(String data) {
+                TrailerParser parser = new TrailerParser();
+                try {
+                    trailers = parser.parseJson(data);
+                    trailersListView.setAdapter(new TrailersListAdapter(DetailActivity.this, trailers));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // TODO: 1/9/2016 notify user of exception
+                }
+            }
+
+            @Override
+            public void onDataError(int errorCode) {
+                // TODO: 1/9/2016 notify user of errors
+            }
+        });
+        trailerFetchTask.execute(DATA_FETCH_URL + movieId + TRAILER_PARAM);
+
+        DataFetchTask reviewFetchTask = new DataFetchTask();
+        reviewFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
+            @Override
+            public void onDataFetched(String data) {
+                ReviewParser parser = new ReviewParser();
+                try {
+                    parser.parseJson(data);
+                    // TODO: 1/9/2016 hook UI to data 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // TODO: 1/9/2016 notify user
+                }
+            }
+
+            @Override
+            public void onDataError(int errorCode) {
+                // TODO: 1/9/2016 notify user
+            }
+        });
+        reviewFetchTask.execute(DATA_FETCH_URL + movieId + REVIEW_PARAM);
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -88,34 +130,16 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
 
     private void setDataIntoViews() {
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             synopsis.setText(extras.getString(Movie.MOVIE_OVERVIEW_KEY));
             title.setText(extras.getString(Movie.MOVIE_TITLE_KEY));
             date.setText(extras.getString(Movie.MOVIE_RELEASE_KEY));
             vote.setText(extras.getDouble(Movie.MOVIE_VOTE_AVG_KEY) + "/10");
-            movieId =  "" + extras.getInt(Movie.MOVIE_ID_KEY);
+            movieId = "" + extras.getInt(Movie.MOVIE_ID_KEY);
             Picasso.with(this).load(extras.getString(Movie.MOVIE_POSTER_PATH_KEY)).into(poster);
-        }
-        else {
+        } else {
             Log.e(LOG_TAG, "Error getting extras!");
         }
     }
 
-    @Override
-    public void onDataFetched(String data) {
-        TrailerParser parser = new TrailerParser();
-        try {
-            trailers = parser.parseJson(data);
-            trailersListView.setAdapter(new TrailersListAdapter(DetailActivity.this, trailers));
-        } catch (JSONException e) {
-            e.printStackTrace();
-            // TODO: 1/9/2016 notify user of exception
-        }
-
-    }
-
-    @Override
-    public void onDataError(int errorCode) {
-        // TODO: 1/9/2016 notify user of error
-    }
 }

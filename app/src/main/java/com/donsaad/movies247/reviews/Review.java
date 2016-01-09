@@ -6,6 +6,10 @@ package com.donsaad.movies247.reviews;
  */
 public class Review {
 
+    public static final String REVIEW_JSON_KEY = "results";
+    public static final String REVIEW_AUTHOR_KEY = "author";
+    public static final String REVIEW_CONTENT_KEY = "content";
+    public static final String REVIEW_URL_KEY = "url";
 
     private String id;
     private String author;
