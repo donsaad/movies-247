@@ -24,15 +24,14 @@
             android:background="@android:color/darker_gray" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/divider"
-            android:maxLines="2"
+            android:maxLines="1"
             android:ellipsize="end"
             android:padding="10dp"
-            android:text="The Godfather III"
             android:textSize="15sp"
             />
 

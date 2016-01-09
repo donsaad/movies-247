@@ -1,13 +1,14 @@
 package com.donsaad.movies247;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,8 @@ public class MoviesActivity extends AppCompatActivity implements OnDataFetchList
     private static final String FETCH_MOVIES_BY_POPULARITY = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
     private static final String FETCH_MOVIES_BY_RATE = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=";
 
-    private RecyclerView recyclerView;
-    private List<Movie> moviesList;
+    private GridView gridView;
+    private ArrayList<Movie> moviesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,19 @@ public class MoviesActivity extends AppCompatActivity implements OnDataFetchList
 
     private void init() {
         moviesList = new ArrayList<>();
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        gridView = (GridView) findViewById(R.id.grid_movies);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MoviesActivity.this, DetailActivity.class);
+                intent.putExtra(Movie.MOVIE_POSTER_PATH_KEY, moviesList.get(position).getPoster());
+                intent.putExtra(Movie.MOVIE_OVERVIEW_KEY, moviesList.get(position).getOverview());
+                intent.putExtra(Movie.MOVIE_VOTE_AVG_KEY, moviesList.get(position).getVoteAverage());
+                intent.putExtra(Movie.MOVIE_RELEASE_KEY, moviesList.get(position).getReleaseDate());
+                intent.putExtra(Movie.MOVIE_TITLE_KEY, moviesList.get(position).getTitle());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -70,7 +80,7 @@ public class MoviesActivity extends AppCompatActivity implements OnDataFetchList
     public void onDataFetched(String data) {
         MovieParser parser = new MovieParser();
         moviesList = parser.parseJson(data);
-        recyclerView.setAdapter(new MovieRecyclerAdapter(MoviesActivity.this, moviesList));
+        gridView.setAdapter(new MovieGridAdapter(MoviesActivity.this, moviesList));
     }
 
     @Override

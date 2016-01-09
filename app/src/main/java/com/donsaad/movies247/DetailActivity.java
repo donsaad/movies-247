@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
             actionBar.setElevation(0f);
         }
         synopsis = (TextView) findViewById(R.id.tv_overview);
-        title = (TextView) findViewById(R.id.tv_title);
+        title = (TextView) findViewById(R.id.tv_card_title);
         date = (TextView) findViewById(R.id.tv_release_date);
         vote = (TextView) findViewById(R.id.tv_vote);
         poster = (ImageView) findViewById(R.id.img_poster);
