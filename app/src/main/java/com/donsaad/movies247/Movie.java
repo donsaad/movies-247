@@ -2,16 +2,16 @@ package com.donsaad.movies247;
 
 public class Movie {
 
-    private static final String MOVIES_KEY = "results";
+    public static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
     public static final String MOVIE_OVERVIEW_KEY = "overview";
     public static final String MOVIE_VOTE_AVG_KEY = "vote_average";
     public static final String MOVIE_RELEASE_KEY = "release_date";
     public static final String MOVIE_TITLE_KEY = "original_title";
+    public static final String MOVIE_POSTER_PATH_KEY = "poster_path";
+    public static final String MOVIES_KEY = "results";
     public static final String MOVIE_ADULT_KEY = "adult";
     public static final String MOVIE_ID_KEY = "id";
-    private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
     public static final String POSTER_PATH_KEY = "poster_path";
-
 
     private String title;
     private String releaseDate;

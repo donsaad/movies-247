@@ -19,13 +19,6 @@ public class MoviesActivity extends AppCompatActivity implements OnDataFetchList
     public static final String API_KEY = "425c4970c74d68d62b533df1a9f65f67"; // TODO: replace with your key
     private static final String FETCH_MOVIES_BY_POPULARITY = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
     private static final String FETCH_MOVIES_BY_RATE = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=";
-    public static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
-    public static final String MOVIE_OVERVIEW_KEY = "overview";
-    public static final String MOVIE_VOTE_AVG_KEY = "vote_average";
-    public static final String MOVIE_RELEASE_KEY = "release_date";
-    public static final String MOVIE_TITLE_KEY = "original_title";
-    public static final String MOVIE_POSTER_PATH_KEY = "poster_path";
-    public static final String MOVIES_KEY = "results";
 
     private RecyclerView recyclerView;
     private List<Movie> moviesList;

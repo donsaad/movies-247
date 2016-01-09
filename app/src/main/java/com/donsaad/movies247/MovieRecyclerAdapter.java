@@ -16,16 +16,16 @@ import java.util.List;
 
 /**
  * Created by donsaad on 12/17/2015.
- * Adapter to fetch posters and populate them.
+ * Adapter to fetch data and populate it in main screen.
  */
 public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.CardViewHolder> {
 
     private Context mContext;
-    private List<Movie> movieList = new ArrayList<>();
+    private List<Movie> moviesList = new ArrayList<>();
 
     public MovieRecyclerAdapter(Context context, List<Movie> list) {
         this.mContext = context;
-        this.movieList = list;
+        this.moviesList = list;
     }
 
     @Override
@@ -36,14 +36,14 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, final int position) {
-        Picasso.with(mContext).load(movieList.get(position).getPoster()).into(holder.mImageHolder);
-        holder.mTitle.setText(movieList.get(position).getTitle());
+        Picasso.with(mContext).load(moviesList.get(position).getPoster()).into(holder.mImageHolder);
+        holder.mTitle.setText(moviesList.get(position).getTitle());
 
     }
 
     @Override
     public int getItemCount() {
-        return movieList.size();
+        return moviesList.size();
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
@@ -58,11 +58,11 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, DetailActivity.class);
-                    intent.putExtra(MoviesActivity.MOVIE_POSTER_PATH_KEY, movieList.get(getAdapterPosition()).getPoster());
-                    intent.putExtra(MoviesActivity.MOVIE_OVERVIEW_KEY, movieList.get(getAdapterPosition()).getOverview());
-                    intent.putExtra(MoviesActivity.MOVIE_VOTE_AVG_KEY, movieList.get(getAdapterPosition()).getVoteAverage());
-                    intent.putExtra(MoviesActivity.MOVIE_RELEASE_KEY, movieList.get(getAdapterPosition()).getReleaseDate());
-                    intent.putExtra(MoviesActivity.MOVIE_TITLE_KEY, movieList.get(getAdapterPosition()).getTitle());
+                    intent.putExtra(Movie.MOVIE_POSTER_PATH_KEY, moviesList.get(getAdapterPosition()).getPoster());
+                    intent.putExtra(Movie.MOVIE_OVERVIEW_KEY, moviesList.get(getAdapterPosition()).getOverview());
+                    intent.putExtra(Movie.MOVIE_VOTE_AVG_KEY, moviesList.get(getAdapterPosition()).getVoteAverage());
+                    intent.putExtra(Movie.MOVIE_RELEASE_KEY, moviesList.get(getAdapterPosition()).getReleaseDate());
+                    intent.putExtra(Movie.MOVIE_TITLE_KEY, moviesList.get(getAdapterPosition()).getTitle());
                     mContext.startActivity(intent);
                 }
             });

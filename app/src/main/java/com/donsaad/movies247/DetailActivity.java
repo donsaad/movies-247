@@ -56,11 +56,11 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
     private void setDataIntoViews() {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            synopsis.setText(extras.getString(MoviesActivity.MOVIE_OVERVIEW_KEY));
-            title.setText(extras.getString(MoviesActivity.MOVIE_TITLE_KEY));
-            date.setText(extras.getString(MoviesActivity.MOVIE_RELEASE_KEY));
-            vote.setText(extras.getDouble(MoviesActivity.MOVIE_VOTE_AVG_KEY) + "/10");
-            Picasso.with(this).load(extras.getString(MoviesActivity.MOVIE_POSTER_PATH_KEY)).into(poster);
+            synopsis.setText(extras.getString(Movie.MOVIE_OVERVIEW_KEY));
+            title.setText(extras.getString(Movie.MOVIE_TITLE_KEY));
+            date.setText(extras.getString(Movie.MOVIE_RELEASE_KEY));
+            vote.setText(extras.getDouble(Movie.MOVIE_VOTE_AVG_KEY) + "/10");
+            Picasso.with(this).load(extras.getString(Movie.MOVIE_POSTER_PATH_KEY)).into(poster);
         }
         else {
             Log.e(LOG_TAG, "Error getting extras!");
