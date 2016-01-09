@@ -1,6 +1,6 @@
 # Gradle generated files
 .gradle
-
+gradle.properties
 # Built application files
 /*/build/
 /build

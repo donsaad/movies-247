@@ -1,5 +1,6 @@
 package com.donsaad.movies247;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -80,9 +81,14 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
         trailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: 1/9/2016 check Youtube URL
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailers.get(position).getKey()));
-                startActivity(intent);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailers.get(position).getKey()));
+                    startActivity(intent);
+                }
+                catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(DetailActivity.this, "You don't have Youtube installed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
