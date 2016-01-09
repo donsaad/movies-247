@@ -1,6 +1,5 @@
 package com.donsaad.movies247;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -14,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.donsaad.movies247.movies.Movie;
 import com.donsaad.movies247.networking.DataFetchTask;
@@ -33,6 +31,7 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
     private final String LOG_TAG = DetailActivity.class.getSimpleName();
     private static final String FETCH_TRAILERS = "http://api.themoviedb.org/3/movie/";
     private static final String TRAILER_PARAM = "/videos?api_key=";
+    private static final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
     private ArrayList<Trailer> trailers;
     private TextView synopsis;
@@ -81,14 +80,8 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
         trailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailers.get(position).getKey()));
-                    startActivity(intent);
-                }
-                catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(DetailActivity.this, "You don't have Youtube installed", Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(BASE_YOUTUBE_URL + trailers.get(position).getKey()));
+                startActivity(intent);
             }
         });
     }
