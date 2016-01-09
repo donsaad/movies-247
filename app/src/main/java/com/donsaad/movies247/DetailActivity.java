@@ -1,5 +1,7 @@
 package com.donsaad.movies247;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.donsaad.movies247.movies.Movie;
 import com.donsaad.movies247.networking.DataFetchTask;
@@ -69,7 +72,7 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
             actionBar.setElevation(0f);
         }
         synopsis = (TextView) findViewById(R.id.tv_overview);
-        title = (TextView) findViewById(R.id.tv_card_title);
+        title = (TextView) findViewById(R.id.tv_title_detail);
         date = (TextView) findViewById(R.id.tv_release_date);
         vote = (TextView) findViewById(R.id.tv_vote);
         poster = (ImageView) findViewById(R.id.img_poster);
@@ -78,8 +81,8 @@ public class DetailActivity extends AppCompatActivity implements OnDataFetchList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: 1/9/2016 check Youtube URL
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailers.get(position).getKey()));
-//                startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailers.get(position).getKey()));
+                startActivity(intent);
             }
         });
     }

@@ -16,7 +16,7 @@ public class TrailerParser {
 
         JSONArray array = new JSONObject(s).getJSONArray(Trailer.TRAILER_JSON_KEY);
         JSONObject object = null;
-        ArrayList<Trailer> trailers = null;
+        ArrayList<Trailer> trailers = new ArrayList<>();
         Trailer trailer;
         for (int i = 0, length = array.length(); i < length; i++) {
             trailer = new Trailer();

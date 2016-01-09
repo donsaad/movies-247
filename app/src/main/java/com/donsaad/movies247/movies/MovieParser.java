@@ -32,6 +32,7 @@ public class MovieParser {
                 movie.setVoteAverage(object.getDouble(Movie.MOVIE_VOTE_AVG_KEY));
                 movie.setReleaseDate(object.getString(Movie.MOVIE_RELEASE_KEY));
                 movie.setTitle(object.getString(Movie.MOVIE_TITLE_KEY));
+                movie.setId(object.getInt(Movie.MOVIE_ID_KEY));
                 movies.add(movie);
             }
 
