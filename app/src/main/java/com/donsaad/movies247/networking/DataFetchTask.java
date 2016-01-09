@@ -3,6 +3,7 @@ package com.donsaad.movies247.networking;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.donsaad.movies247.BuildConfig;
 import com.donsaad.movies247.movies.MoviesActivity;
 
 import java.io.BufferedReader;
@@ -38,7 +39,7 @@ public class DataFetchTask extends AsyncTask<String, Void, String> {
         BufferedReader reader = null;
 
         try {
-            URL url = new URL(params[0] + MoviesActivity.API_KEY);
+            URL url = new URL(params[0] + BuildConfig.API_KEY);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.connect();

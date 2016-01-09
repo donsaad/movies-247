@@ -22,7 +22,6 @@ public class MoviesActivity extends AppCompatActivity implements OnDataFetchList
 
     public final String LOG_TAG = MoviesActivity.class.getSimpleName();
 
-    public static final String API_KEY = ""; // TODO: replace with your key
     private static final String FETCH_MOVIES_BY_POPULARITY = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
     private static final String FETCH_MOVIES_BY_RATE = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=";
 
