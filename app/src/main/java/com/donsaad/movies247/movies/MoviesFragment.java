@@ -2,51 +2,60 @@ package com.donsaad.movies247.movies;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import com.donsaad.movies247.networking.DataFetchTask;
 import com.donsaad.movies247.DetailActivity;
-import com.donsaad.movies247.networking.OnDataFetchListener;
 import com.donsaad.movies247.R;
+import com.donsaad.movies247.networking.DataFetchTask;
+import com.donsaad.movies247.networking.OnDataFetchListener;
 
 import java.util.ArrayList;
 
-public class MoviesActivity extends AppCompatActivity implements OnDataFetchListener {
-
-    public final String LOG_TAG = MoviesActivity.class.getSimpleName();
+/**
+ * Created by donsaad on 1/15/2016.
+ * fragment for the main screen
+ */
+public class MoviesFragment extends Fragment implements OnDataFetchListener {
 
     private static final String FETCH_MOVIES_BY_POPULARITY = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
     private static final String FETCH_MOVIES_BY_RATE = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=";
 
-    private GridView gridView;
     private ArrayList<Movie> moviesList;
+    private GridView mGridView;
+
+    public MoviesFragment() {}
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        init();
+        setHasOptionsMenu(true);
         DataFetchTask dataFetchTask = new DataFetchTask();
         dataFetchTask.setOnDataFetchListener(this);
         dataFetchTask.execute(FETCH_MOVIES_BY_POPULARITY);
-
     }
 
-    private void init() {
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        mGridView = (GridView) rootView.findViewById(R.id.grid_movies);
+
         moviesList = new ArrayList<>();
-        gridView = (GridView) findViewById(R.id.grid_movies);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MoviesActivity.this, DetailActivity.class);
+                Intent intent = new Intent(getContext(), DetailActivity.class);
                 intent.putExtra(Movie.MOVIE_POSTER_PATH_KEY, moviesList.get(position).getPoster());
                 intent.putExtra(Movie.MOVIE_OVERVIEW_KEY, moviesList.get(position).getOverview());
                 intent.putExtra(Movie.MOVIE_VOTE_AVG_KEY, moviesList.get(position).getVoteAverage());
@@ -56,12 +65,25 @@ public class MoviesActivity extends AppCompatActivity implements OnDataFetchList
                 startActivity(intent);
             }
         });
+        return rootView;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void onDataFetched(String data) {
+        MovieParser parser = new MovieParser();
+        moviesList = parser.parseJson(data);
+        mGridView.setAdapter(new MovieGridAdapter(getContext(), moviesList));
+    }
+
+    @Override
+    public void onDataError(int errorCode) {
+        Log.e("MoviesFragment", "Error: DataFetchTask Error Code: " + errorCode);
+        // TODO: 1/15/2016 propagate error to user
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
     }
 
     @Override
@@ -76,22 +98,8 @@ public class MoviesActivity extends AppCompatActivity implements OnDataFetchList
             dataFetchTask.setOnDataFetchListener(this);
             dataFetchTask.execute(FETCH_MOVIES_BY_RATE);
         } else if (id == R.id.action_sort_by_fav) {
-            // // TODO: 12/25/2015 fav 
+            // // TODO: 12/25/2015 fav
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onDataFetched(String data) {
-        MovieParser parser = new MovieParser();
-        moviesList = parser.parseJson(data);
-        gridView.setAdapter(new MovieGridAdapter(MoviesActivity.this, moviesList));
-    }
-
-    @Override
-    public void onDataError(int errorCode) {
-        Log.e(LOG_TAG, "Error: DataFetchTask Error Code: " + errorCode);
-    }
-
-
 }

@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.donsaad.movies247.BuildConfig;
-import com.donsaad.movies247.movies.MoviesActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
