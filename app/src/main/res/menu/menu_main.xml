@@ -5,19 +5,19 @@
     <item
         android:id="@+id/action_sort_by_popular"
         android:title="@string/action_sort_pop"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         />
 
     <item
         android:id="@+id/action_sort_by_rate"
         android:title="@string/action_sort_rate"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         />
 
     <item
         android:id="@+id/action_sort_by_fav"
         android:title="@string/action_sort_fav"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         />
 
 </menu>
