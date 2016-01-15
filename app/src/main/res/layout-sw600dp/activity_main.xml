@@ -17,8 +17,7 @@
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:name="com.donsaad.movies247.movies.MoviesFragment"
-
-        />
+        tools:layout="@layout/fragment_main" />
 
     <FrameLayout
         android:id="@+id/movie_detail_container"

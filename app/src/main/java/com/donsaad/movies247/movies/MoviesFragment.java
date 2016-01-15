@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.donsaad.movies247.DetailActivity;
+import com.donsaad.movies247.DetailsActivity;
 import com.donsaad.movies247.R;
 import com.donsaad.movies247.networking.DataFetchTask;
 import com.donsaad.movies247.networking.OnDataFetchListener;
@@ -55,14 +55,14 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra(Movie.MOVIE_POSTER_PATH_KEY, moviesList.get(position).getPoster());
-                intent.putExtra(Movie.MOVIE_OVERVIEW_KEY, moviesList.get(position).getOverview());
-                intent.putExtra(Movie.MOVIE_VOTE_AVG_KEY, moviesList.get(position).getVoteAverage());
-                intent.putExtra(Movie.MOVIE_RELEASE_KEY, moviesList.get(position).getReleaseDate());
-                intent.putExtra(Movie.MOVIE_TITLE_KEY, moviesList.get(position).getTitle());
-                intent.putExtra(Movie.MOVIE_ID_KEY, moviesList.get(position).getId());
-                startActivity(intent);
+                Bundle args = new Bundle();
+                args.putString(Movie.MOVIE_POSTER_PATH_KEY, moviesList.get(position).getPoster());
+                args.putString(Movie.MOVIE_OVERVIEW_KEY, moviesList.get(position).getOverview());
+                args.putString(Movie.MOVIE_RELEASE_KEY, moviesList.get(position).getReleaseDate());
+                args.putString(Movie.MOVIE_TITLE_KEY, moviesList.get(position).getTitle());
+                args.putDouble(Movie.MOVIE_VOTE_AVG_KEY, moviesList.get(position).getVoteAverage());
+                args.putInt(Movie.MOVIE_ID_KEY, moviesList.get(position).getId());
+                ((Callback) getActivity()).onItemSelected(args);
             }
         });
         return rootView;
@@ -102,4 +102,9 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public interface Callback {
+        public void onItemSelected(Bundle data);
+    }
+
 }

@@ -1,14 +1,15 @@
 package com.donsaad.movies247;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,9 +28,13 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity {
+/**
+ * Created by donsaad on 1/15/2016.
+ * fragment for the detail screen
+ */
+public class DetailsFragment extends Fragment {
 
-    private final String LOG_TAG = DetailActivity.class.getSimpleName();
+    private final String LOG_TAG = DetailsFragment.class.getSimpleName();
     private static final String DATA_FETCH_URL = "http://api.themoviedb.org/3/movie/";
     private static final String TRAILER_PARAM = "/videos?api_key=";
     private static final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
@@ -42,15 +47,27 @@ public class DetailActivity extends AppCompatActivity {
     private TextView date;
     private TextView vote;
     private ImageView poster;
-    private String movieId;
+    private String movieID;
     private ListView trailersListView;
+    private Context mContext;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
-        init();
-        setDataIntoViews();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        init(rootView);
+
+        Bundle arguments = getArguments();
+        if(arguments != null) {
+            setDataIntoViews(arguments);
+        }
 
         DataFetchTask trailerFetchTask = new DataFetchTask();
         trailerFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
@@ -59,7 +76,7 @@ public class DetailActivity extends AppCompatActivity {
                 TrailerParser parser = new TrailerParser();
                 try {
                     trailers = parser.parseJson(data);
-                    trailersListView.setAdapter(new TrailersListAdapter(DetailActivity.this, trailers));
+                    trailersListView.setAdapter(new TrailersListAdapter(getContext(), trailers));
                 } catch (JSONException e) {
                     e.printStackTrace();
                     // TODO: 1/9/2016 notify user of exception
@@ -71,7 +88,7 @@ public class DetailActivity extends AppCompatActivity {
                 // TODO: 1/9/2016 notify user of errors
             }
         });
-        trailerFetchTask.execute(DATA_FETCH_URL + movieId + TRAILER_PARAM);
+        trailerFetchTask.execute(DATA_FETCH_URL + movieID + TRAILER_PARAM);
 
         DataFetchTask reviewFetchTask = new DataFetchTask();
         reviewFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
@@ -80,7 +97,7 @@ public class DetailActivity extends AppCompatActivity {
                 ReviewParser parser = new ReviewParser();
                 try {
                     parser.parseJson(data);
-                    // TODO: 1/9/2016 hook UI to data 
+                    // TODO: 1/9/2016 hook UI to data
                 } catch (JSONException e) {
                     e.printStackTrace();
                     // TODO: 1/9/2016 notify user
@@ -92,33 +109,19 @@ public class DetailActivity extends AppCompatActivity {
                 // TODO: 1/9/2016 notify user
             }
         });
-        reviewFetchTask.execute(DATA_FETCH_URL + movieId + REVIEW_PARAM);
-
+        reviewFetchTask.execute(DATA_FETCH_URL + movieID + REVIEW_PARAM);
+        return rootView;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void init() {
+    private void init(View rootView) {
+        mContext = getContext();
         trailers = new ArrayList<>();
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            actionBar.setElevation(0f);
-        }
-        synopsis = (TextView) findViewById(R.id.tv_overview);
-        title = (TextView) findViewById(R.id.tv_title_detail);
-        date = (TextView) findViewById(R.id.tv_release_date);
-        vote = (TextView) findViewById(R.id.tv_vote);
-        poster = (ImageView) findViewById(R.id.img_poster);
-        trailersListView = (ListView) findViewById(R.id.lv_trailers);
+        synopsis = (TextView) rootView.findViewById(R.id.tv_overview);
+        title = (TextView) rootView.findViewById(R.id.tv_title_detail);
+        date = (TextView) rootView.findViewById(R.id.tv_release_date);
+        vote = (TextView) rootView.findViewById(R.id.tv_vote);
+        poster = (ImageView) rootView.findViewById(R.id.img_poster);
+        trailersListView = (ListView) rootView.findViewById(R.id.lv_trailers);
         trailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -128,17 +131,17 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    private void setDataIntoViews() {
-        Bundle extras = getIntent().getExtras();
+    private void setDataIntoViews(Bundle extras) {
         if (extras != null) {
             synopsis.setText(extras.getString(Movie.MOVIE_OVERVIEW_KEY));
             title.setText(extras.getString(Movie.MOVIE_TITLE_KEY));
             date.setText(extras.getString(Movie.MOVIE_RELEASE_KEY));
             vote.setText(extras.getDouble(Movie.MOVIE_VOTE_AVG_KEY) + "/10");
-            movieId = "" + extras.getInt(Movie.MOVIE_ID_KEY);
-            Picasso.with(this).load(extras.getString(Movie.MOVIE_POSTER_PATH_KEY)).into(poster);
+            movieID = "" + extras.getInt(Movie.MOVIE_ID_KEY);
+            Picasso.with(mContext).load(extras.getString(Movie.MOVIE_POSTER_PATH_KEY)).into(poster);
         } else {
             Log.e(LOG_TAG, "Error getting extras!");
+            // TODO: 1/15/2016 notify user to know what went wrong
         }
     }
 
