@@ -1,6 +1,5 @@
 package com.donsaad.movies247.movies;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.donsaad.movies247.DetailsActivity;
 import com.donsaad.movies247.R;
 import com.donsaad.movies247.networking.DataFetchTask;
 import com.donsaad.movies247.networking.OnDataFetchListener;
@@ -48,7 +46,7 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         mGridView = (GridView) rootView.findViewById(R.id.grid_movies);
 
         moviesList = new ArrayList<>();
@@ -73,7 +71,7 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
         MovieParser parser = new MovieParser();
         moviesList = parser.parseJson(data);
         mGridView.setAdapter(new MovieGridAdapter(getContext(), moviesList));
-        if(MainActivity.mTwoPane)
+        if(MoviesActivity.mTwoPane)
             ((Callback)getActivity()).onItemSelected(moviesList.get(0).asBundle());
     }
 

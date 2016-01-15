@@ -3,20 +3,19 @@ package com.donsaad.movies247.movies;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
-import com.donsaad.movies247.DetailsActivity;
-import com.donsaad.movies247.DetailsFragment;
+import com.donsaad.movies247.moviedetails.DetailsActivity;
+import com.donsaad.movies247.moviedetails.DetailsFragment;
 import com.donsaad.movies247.R;
 
-public class MainActivity extends AppCompatActivity implements MoviesFragment.Callback {
+public class MoviesActivity extends AppCompatActivity implements MoviesFragment.Callback {
 
     public static boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_movies);
 
         if(findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;

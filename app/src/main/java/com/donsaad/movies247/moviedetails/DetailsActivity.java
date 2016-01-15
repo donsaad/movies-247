@@ -1,10 +1,12 @@
-package com.donsaad.movies247;
+package com.donsaad.movies247.moviedetails;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import com.donsaad.movies247.R;
 
 public class DetailsActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.donsaad.movies247;
+package com.donsaad.movies247.moviedetails;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.donsaad.movies247.R;
 import com.donsaad.movies247.movies.Movie;
 import com.donsaad.movies247.networking.DataFetchTask;
 import com.donsaad.movies247.networking.OnDataFetchListener;
@@ -61,7 +62,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         init(rootView);
 
         Bundle arguments = getArguments();
