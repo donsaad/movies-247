@@ -5,4 +5,6 @@
     <string name="action_sort_rate">Highest rated</string>
     <string name="action_sort_fav">Favorite</string>
     <string name="trailers_label">Trailers:</string>
+    <string name="fav_btn_label">MARK\nAS\nFAVORITE</string>
+
 </resources>

@@ -11,6 +11,7 @@ public class Movie {
     public static final String MOVIE_TITLE_KEY = "original_title";
     public static final String MOVIE_POSTER_PATH_KEY = "poster_path";
     public static final String MOVIES_KEY = "results";
+    public static final String MOVIE_FAV_PREF_KEY = "adult";
     public static final String MOVIE_ADULT_KEY = "adult";
     public static final String MOVIE_ID_KEY = "id";
 

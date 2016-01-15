@@ -17,12 +17,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detail);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            actionBar.setElevation(0f);
-        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(savedInstanceState == null) {
             DetailsFragment fragment = new DetailsFragment();
