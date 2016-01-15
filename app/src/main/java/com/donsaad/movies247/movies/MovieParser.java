@@ -39,6 +39,7 @@ public class MovieParser {
 
         } catch (JSONException e) {
             Log.e("MovieParser", "Error parsing Movie JSON: ", e);
+            //// TODO: 1/15/2016 don't hide errors show it to user later
         }
 
         return movies;

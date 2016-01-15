@@ -1,5 +1,7 @@
 package com.donsaad.movies247.movies;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.donsaad.movies247.R;
+import com.donsaad.movies247.moviedetails.DetailsFragment;
 import com.donsaad.movies247.networking.DataFetchTask;
 import com.donsaad.movies247.networking.OnDataFetchListener;
 
@@ -99,6 +102,14 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
             dataFetchTask.execute(FETCH_MOVIES_BY_RATE);
         } else if (id == R.id.action_sort_by_fav) {
             // // TODO: 12/25/2015 fav
+            SharedPreferences preferences = getActivity()
+                    .getSharedPreferences(DetailsFragment.MOVIES_PREF_NAME,
+                            Context.MODE_PRIVATE);
+            MovieParser parser = new MovieParser();
+            moviesList = parser.parseJson(preferences.getString(Movie.MOVIE_FAV_PREF_KEY, null));
+            mGridView.setAdapter(new MovieGridAdapter(getContext(), moviesList));
+            if(MoviesActivity.mTwoPane)
+                ((Callback)getActivity()).onItemSelected(moviesList.get(0).asBundle());
         }
         return super.onOptionsItemSelected(item);
     }
