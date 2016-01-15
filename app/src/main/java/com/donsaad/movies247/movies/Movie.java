@@ -1,5 +1,7 @@
 package com.donsaad.movies247.movies;
 
+import android.os.Bundle;
+
 public class Movie {
 
     public static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
@@ -19,6 +21,17 @@ public class Movie {
     private String overview;
     private boolean isAdult;
     private int id;
+
+    public Bundle asBundle() {
+        Bundle b = new Bundle();
+        b.putInt(MOVIE_ID_KEY, id);
+        b.putString(MOVIE_OVERVIEW_KEY, overview);
+        b.putString(MOVIE_RELEASE_KEY, releaseDate);
+        b.putString(MOVIE_TITLE_KEY, title);
+        b.putDouble(MOVIE_VOTE_AVG_KEY, voteAverage);
+        b.putString(MOVIE_POSTER_PATH_KEY, poster);
+        return b;
+    }
 
     public String getTitle() {
         return title;

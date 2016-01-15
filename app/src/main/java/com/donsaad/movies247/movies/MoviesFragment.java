@@ -73,6 +73,8 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
         MovieParser parser = new MovieParser();
         moviesList = parser.parseJson(data);
         mGridView.setAdapter(new MovieGridAdapter(getContext(), moviesList));
+        if(MainActivity.mTwoPane)
+            ((Callback)getActivity()).onItemSelected(moviesList.get(0).asBundle());
     }
 
     @Override
@@ -104,7 +106,7 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
     }
 
     public interface Callback {
-        public void onItemSelected(Bundle data);
+        void onItemSelected(Bundle data);
     }
 
 }

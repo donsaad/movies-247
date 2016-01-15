@@ -88,7 +88,8 @@ public class DetailsFragment extends Fragment {
                 // TODO: 1/9/2016 notify user of errors
             }
         });
-        trailerFetchTask.execute(DATA_FETCH_URL + movieID + TRAILER_PARAM);
+        if(movieID != null)
+            trailerFetchTask.execute(DATA_FETCH_URL + movieID + TRAILER_PARAM);
 
         DataFetchTask reviewFetchTask = new DataFetchTask();
         reviewFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
@@ -109,7 +110,8 @@ public class DetailsFragment extends Fragment {
                 // TODO: 1/9/2016 notify user
             }
         });
-        reviewFetchTask.execute(DATA_FETCH_URL + movieID + REVIEW_PARAM);
+        if(movieID != null)
+            reviewFetchTask.execute(DATA_FETCH_URL + movieID + REVIEW_PARAM);
         return rootView;
     }
     private void init(View rootView) {
@@ -131,14 +133,14 @@ public class DetailsFragment extends Fragment {
         });
     }
 
-    private void setDataIntoViews(Bundle extras) {
-        if (extras != null) {
-            synopsis.setText(extras.getString(Movie.MOVIE_OVERVIEW_KEY));
-            title.setText(extras.getString(Movie.MOVIE_TITLE_KEY));
-            date.setText(extras.getString(Movie.MOVIE_RELEASE_KEY));
-            vote.setText(extras.getDouble(Movie.MOVIE_VOTE_AVG_KEY) + "/10");
-            movieID = "" + extras.getInt(Movie.MOVIE_ID_KEY);
-            Picasso.with(mContext).load(extras.getString(Movie.MOVIE_POSTER_PATH_KEY)).into(poster);
+    private void setDataIntoViews(Bundle arguments) {
+        if (arguments != null) {
+            synopsis.setText(arguments.getString(Movie.MOVIE_OVERVIEW_KEY));
+            title.setText(arguments.getString(Movie.MOVIE_TITLE_KEY));
+            date.setText(arguments.getString(Movie.MOVIE_RELEASE_KEY));
+            vote.setText(arguments.getDouble(Movie.MOVIE_VOTE_AVG_KEY) + "/10");
+            movieID = "" + arguments.getInt(Movie.MOVIE_ID_KEY);
+            Picasso.with(mContext).load(arguments.getString(Movie.MOVIE_POSTER_PATH_KEY)).into(poster);
         } else {
             Log.e(LOG_TAG, "Error getting extras!");
             // TODO: 1/15/2016 notify user to know what went wrong

@@ -11,7 +11,7 @@ import com.donsaad.movies247.R;
 
 public class MainActivity extends AppCompatActivity implements MoviesFragment.Callback {
 
-    private boolean mTwoPane;
+    public static boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.Ca
         }
         else {
             mTwoPane = false;
-            Toast.makeText(MainActivity.this, "OnePane :D", Toast.LENGTH_SHORT).show();
         }
     }
 
