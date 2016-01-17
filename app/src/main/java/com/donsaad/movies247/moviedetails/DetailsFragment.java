@@ -183,7 +183,6 @@ public class DetailsFragment extends Fragment {
 
                     Log.i(LOG_TAG, jsonStr);
                     editor.putString(Movie.MOVIE_FAV_PREF_KEY, jsonStr);
-                    Toast.makeText(mContext, "not first time fav", Toast.LENGTH_SHORT).show();
                 }
                 /**
                  * this else is a first time to mark a fav,
@@ -191,7 +190,6 @@ public class DetailsFragment extends Fragment {
                  * to use the @parseJson method in the @MovieParser class
                  */
                 else {
-                    Toast.makeText(mContext, "first time fav", Toast.LENGTH_SHORT).show();
                     try {
                         jsonInner.put(Movie.MOVIE_ID_KEY, movieID.trim());
                         jsonInner.put(Movie.MOVIE_TITLE_KEY, title.getText().toString().trim());
@@ -206,7 +204,6 @@ public class DetailsFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    Log.i(LOG_TAG, jsonObj.toString());
                     editor.putString(Movie.MOVIE_FAV_PREF_KEY, jsonObj.toString().trim());
                 }
                 editor.apply();
