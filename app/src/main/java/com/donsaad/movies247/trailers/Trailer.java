@@ -1,10 +1,13 @@
 package com.donsaad.movies247.trailers;
 
+import com.donsaad.movies247.moviedetails.ListAdapter;
+import com.donsaad.movies247.moviedetails.ListItem;
+
 /**
  * Created by donsaad on 12/25/2015.
  * Trailer data model
  */
-public class Trailer {
+public class Trailer implements ListItem{
 
     public static final String TRAILER_JSON_KEY = "results";
     public static final String TRAILER_ID_KEY = "id";
@@ -55,5 +58,10 @@ public class Trailer {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public int getViewType() {
+        return ListAdapter.RowType.TRAILER_ITEM.ordinal();
     }
 }

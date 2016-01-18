@@ -44,14 +44,14 @@ public class TrailersListAdapter extends BaseAdapter {
         ViewHolder holder;
         if(convertView == null) {
             holder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_trailers, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_trailer, parent, false);
             holder.view = (TextView) convertView.findViewById(R.id.tv_trailer);
             convertView.setTag(holder);
         }
         else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.view.setText("Trailer #" + (position + 1));
+        holder.view.setText(trailers.get(position).getName());
         return convertView;
     }
 

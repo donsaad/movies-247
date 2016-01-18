@@ -22,6 +22,7 @@ import com.donsaad.movies247.R;
 import com.donsaad.movies247.movies.Movie;
 import com.donsaad.movies247.networking.DataFetchTask;
 import com.donsaad.movies247.networking.OnDataFetchListener;
+import com.donsaad.movies247.reviews.Review;
 import com.donsaad.movies247.reviews.ReviewParser;
 import com.donsaad.movies247.trailers.Trailer;
 import com.donsaad.movies247.trailers.TrailerParser;
@@ -49,6 +50,7 @@ public class DetailsFragment extends Fragment {
 
 
     private ArrayList<Trailer> trailers;
+    private ArrayList<ListItem> items;
     private TextView synopsis;
     private TextView title;
     private TextView date;
@@ -57,13 +59,14 @@ public class DetailsFragment extends Fragment {
     private ImageView poster;
     private String movieID;
     private String posterPath;
-    private ListView trailersListView;
+    private ListView listView;
     private Context mContext;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        items = new ArrayList<>();
     }
 
     @Nullable
@@ -78,6 +81,30 @@ public class DetailsFragment extends Fragment {
             setDataIntoViews(arguments);
         }
 
+        final DataFetchTask reviewFetchTask = new DataFetchTask();
+        reviewFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
+            @Override
+            public void onDataFetched(String data) {
+                ReviewParser parser = new ReviewParser();
+                ArrayList<Review> reviews = new ArrayList<>();
+                try {
+                    reviews = parser.parseJson(data);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // TODO: 1/9/2016 notify user
+                }
+                for (Review v : reviews) {
+                    items.add(v);
+                }
+                listView.setAdapter(new ListAdapter(getContext(), items));
+            }
+
+            @Override
+            public void onDataError(int errorCode) {
+                // TODO: 1/9/2016 notify user
+            }
+        });
+
         DataFetchTask trailerFetchTask = new DataFetchTask();
         trailerFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
             @Override
@@ -85,11 +112,15 @@ public class DetailsFragment extends Fragment {
                 TrailerParser parser = new TrailerParser();
                 try {
                     trailers = parser.parseJson(data);
-                    trailersListView.setAdapter(new TrailersListAdapter(getContext(), trailers));
                 } catch (JSONException e) {
                     e.printStackTrace();
                     // TODO: 1/9/2016 notify user of exception
                 }
+                items = new ArrayList<>();
+                for (Trailer t : trailers) {
+                    items.add(t);
+                }
+                reviewFetchTask.execute(DATA_FETCH_URL + movieID + REVIEW_PARAM);
             }
 
             @Override
@@ -100,27 +131,6 @@ public class DetailsFragment extends Fragment {
         if (movieID != null)
             trailerFetchTask.execute(DATA_FETCH_URL + movieID + TRAILER_PARAM);
 
-        DataFetchTask reviewFetchTask = new DataFetchTask();
-        reviewFetchTask.setOnDataFetchListener(new OnDataFetchListener() {
-            @Override
-            public void onDataFetched(String data) {
-                ReviewParser parser = new ReviewParser();
-                try {
-                    parser.parseJson(data);
-                    // TODO: 1/9/2016 hook UI to data
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    // TODO: 1/9/2016 notify user
-                }
-            }
-
-            @Override
-            public void onDataError(int errorCode) {
-                // TODO: 1/9/2016 notify user
-            }
-        });
-        if (movieID != null)
-            reviewFetchTask.execute(DATA_FETCH_URL + movieID + REVIEW_PARAM);
         return rootView;
     }
 
@@ -129,21 +139,26 @@ public class DetailsFragment extends Fragment {
         trailers = new ArrayList<>();
         posterPath = null;
 
-        synopsis = (TextView) rootView.findViewById(R.id.tv_overview);
-        title = (TextView) rootView.findViewById(R.id.tv_title_detail);
-        date = (TextView) rootView.findViewById(R.id.tv_release_date);
-        vote = (TextView) rootView.findViewById(R.id.tv_vote);
-        fav = (Button) rootView.findViewById(R.id.btn_fav);
-        poster = (ImageView) rootView.findViewById(R.id.img_poster);
-        trailersListView = (ListView) rootView.findViewById(R.id.lv_trailers);
+        listView = (ListView) rootView.findViewById(R.id.lv_trailers_reviews);
+        listView.addHeaderView(View.inflate(mContext, R.layout.list_header_details, null));
+        synopsis = (TextView) listView.findViewById(R.id.tv_overview);
+        title = (TextView) listView.findViewById(R.id.tv_title_detail);
+        date = (TextView) listView.findViewById(R.id.tv_release_date);
+        vote = (TextView) listView.findViewById(R.id.tv_vote);
+        fav = (Button) listView.findViewById(R.id.btn_fav);
+        poster = (ImageView) listView.findViewById(R.id.img_poster);
         /**
          * listeners for views
          */
-        trailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(BASE_YOUTUBE_URL + trailers.get(position).getKey()));
-                startActivity(intent);
+                if (listView.getAdapter().getItemViewType(position)
+                        == ListAdapter.RowType.TRAILER_ITEM.ordinal()) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(BASE_YOUTUBE_URL + trailers.get(position-1).getKey()));
+                    startActivity(intent);
+                }
             }
         });
 
@@ -217,7 +232,7 @@ public class DetailsFragment extends Fragment {
             synopsis.setText(arguments.getString(Movie.MOVIE_OVERVIEW_KEY));
             title.setText(arguments.getString(Movie.MOVIE_TITLE_KEY));
             date.setText(arguments.getString(Movie.MOVIE_RELEASE_KEY));
-            vote.setText(arguments.getDouble(Movie.MOVIE_VOTE_AVG_KEY)+"");
+            vote.setText(arguments.getDouble(Movie.MOVIE_VOTE_AVG_KEY) + "");
             movieID = "" + arguments.getInt(Movie.MOVIE_ID_KEY);
             posterPath = arguments.getString(Movie.MOVIE_POSTER_PATH_KEY).trim();
             Picasso.with(mContext).load(posterPath).into(poster);

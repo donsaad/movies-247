@@ -4,7 +4,9 @@
     <string name="action_sort_pop">Most popular</string>
     <string name="action_sort_rate">Highest rated</string>
     <string name="action_sort_fav">Favorite</string>
-    <string name="trailers_label">Trailers:</string>
+    <string name="trailers_reviews_label">Trailers and reviews:</string>
     <string name="fav_btn_label">MARK\nAS\nFAVORITE</string>
+    <string name="font_roboto">roboto</string>
+    <string name="text_empty_list">Not available</string>
 
 </resources>

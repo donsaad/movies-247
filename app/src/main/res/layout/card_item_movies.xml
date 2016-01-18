@@ -35,6 +35,7 @@
             android:ellipsize="end"
             android:padding="10dp"
             android:textSize="15sp"
+            android:textColor="@color/primary_text"
             />
 
     </RelativeLayout>
