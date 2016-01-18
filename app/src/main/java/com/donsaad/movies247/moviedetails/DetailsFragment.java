@@ -26,7 +26,6 @@ import com.donsaad.movies247.reviews.Review;
 import com.donsaad.movies247.reviews.ReviewParser;
 import com.donsaad.movies247.trailers.Trailer;
 import com.donsaad.movies247.trailers.TrailerParser;
-import com.donsaad.movies247.trailers.TrailersListAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
