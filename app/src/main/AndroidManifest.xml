@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".movies.MoviesActivity">
+        <activity android:name=".movies.MoviesActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".moviedetails.DetailsActivity"
-            android:parentActivityName=".movies.MoviesActivity">
+            android:parentActivityName=".movies.MoviesActivity"
+            android:configChanges="orientation|screenSize">
 
         </activity>
     </application>

@@ -101,7 +101,6 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
             dataFetchTask.setOnDataFetchListener(this);
             dataFetchTask.execute(FETCH_MOVIES_BY_RATE);
         } else if (id == R.id.action_sort_by_fav) {
-            // // TODO: 12/25/2015 fav
             SharedPreferences preferences = getActivity()
                     .getSharedPreferences(DetailsFragment.MOVIES_PREF_NAME,
                             Context.MODE_PRIVATE);
