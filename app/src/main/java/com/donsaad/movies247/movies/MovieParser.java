@@ -13,8 +13,7 @@ import java.util.ArrayList;
  * Parser class to parse JSON string of movies
  */
 public class MovieParser {
-
-
+    
     public ArrayList<Movie> parseJson(String s) {
         ArrayList<Movie> movies = null;
         Movie movie;
