@@ -1,12 +1,11 @@
 package com.donsaad.movies247.moviedetails;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.donsaad.movies247.R;
+import com.donsaad.movies247.movies.Movie;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -18,10 +17,11 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         if(savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            setTitle(extras.getString(Movie.MOVIE_TITLE_KEY));
             DetailsFragment fragment = new DetailsFragment();
-            fragment.setArguments(getIntent().getExtras());
+            fragment.setArguments(extras);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.movie_detail_container, fragment)
                     .commit();
