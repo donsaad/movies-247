@@ -18,13 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import io.donsaad.movies247.movies.Movie;
-import io.donsaad.movies247.networking.DataFetchTask;
-import io.donsaad.movies247.networking.OnDataFetchListener;
-import io.donsaad.movies247.reviews.Review;
-import io.donsaad.movies247.reviews.ReviewParser;
-import io.donsaad.movies247.trailers.Trailer;
-import io.donsaad.movies247.trailers.TrailerParser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -33,18 +26,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.donsaad.movies247.networking.DataFetchTask;
+import io.donsaad.movies247.networking.OnDataFetchListener;
+import io.donsaad.movies247.reviews.Review;
+import io.donsaad.movies247.reviews.ReviewParser;
+import io.donsaad.movies247.trailers.Trailer;
+import io.donsaad.movies247.trailers.TrailerParser;
+import io.donsaad.movies247.utils.Constants;
+
 /**
  * Created by donsaad on 1/15/2016.
  * fragment for the detail screen
  */
 public class DetailsFragment extends Fragment {
 
-    public static final String MOVIES_PREF_NAME = "MOVIES_PREF";
+
     private final String LOG_TAG = DetailsFragment.class.getSimpleName();
-    private static final String DATA_FETCH_URL = "http://api.themoviedb.org/3/movie/";
-    private static final String TRAILER_PARAM = "/videos?api_key=";
-    private static final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
-    private static final String REVIEW_PARAM = "/reviews?api_key=";
 
 
     private ArrayList<Trailer> trailers;
@@ -94,7 +91,7 @@ public class DetailsFragment extends Fragment {
                 for (Review v : reviews) {
                     items.add(v);
                 }
-                listView.setAdapter(new ListAdapter(getContext(), items));
+                listView.setAdapter(new MovieDetailsListAdapter(getContext(), items));
             }
 
             @Override
@@ -118,7 +115,7 @@ public class DetailsFragment extends Fragment {
                 for (Trailer t : trailers) {
                     items.add(t);
                 }
-                reviewFetchTask.execute(DATA_FETCH_URL + movieID + REVIEW_PARAM);
+                reviewFetchTask.execute(Constants.DATA_FETCH_URL + movieID + Constants.REVIEW_ENDPOINT);
             }
 
             @Override
@@ -127,7 +124,7 @@ public class DetailsFragment extends Fragment {
             }
         });
         if (movieID != null)
-            trailerFetchTask.execute(DATA_FETCH_URL + movieID + TRAILER_PARAM);
+            trailerFetchTask.execute(Constants.DATA_FETCH_URL + movieID + Constants.TRAILER_ENDPOINT);
 
         return rootView;
     }
@@ -152,9 +149,9 @@ public class DetailsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (listView.getAdapter().getItemViewType(position)
-                        == ListAdapter.RowType.TRAILER_ITEM.ordinal()) {
+                        == MovieDetailsListAdapter.RowType.TRAILER_ITEM.ordinal()) {
                     Intent intent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(BASE_YOUTUBE_URL + trailers.get(position-1).getKey()));
+                            Uri.parse(Constants.BASE_YOUTUBE_URL + trailers.get(position-1).getKey()));
                     startActivity(intent);
                 }
             }
@@ -164,7 +161,7 @@ public class DetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SharedPreferences preferences = getActivity()
-                        .getSharedPreferences(MOVIES_PREF_NAME, Context.MODE_PRIVATE);
+                        .getSharedPreferences(Constants.MOVIES_PREF_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 JSONObject jsonObj = new JSONObject();
                 JSONObject jsonInner = new JSONObject();
@@ -174,19 +171,19 @@ public class DetailsFragment extends Fragment {
                 /**
                  * appending a movie as a JSON string to existing JSON string
                  */
-                if (preferences.contains(Movie.MOVIE_FAV_PREF_KEY)) {
+                if (preferences.contains(Constants.MOVIE_FAV_PREF_KEY)) {
                     try {
-                        jsonStr = preferences.getString(Movie.MOVIE_FAV_PREF_KEY, null);
+                        jsonStr = preferences.getString(Constants.MOVIE_FAV_PREF_KEY, null);
                         jsonStr = jsonStr.substring(0, jsonStr.length() - 2);
                         jsonStr += ",";
 
-                        jsonInner.put(Movie.MOVIE_ID_KEY, Integer.parseInt(movieID.trim()));
-                        jsonInner.put(Movie.MOVIE_TITLE_KEY, title.getText().toString().trim());
-                        jsonInner.put(Movie.MOVIE_OVERVIEW_KEY, synopsis.getText().toString().trim());
-                        jsonInner.put(Movie.MOVIE_RELEASE_KEY, date.getText().toString().trim());
-                        jsonInner.put(Movie.MOVIE_VOTE_AVG_KEY, Double.parseDouble((vote.getText()
+                        jsonInner.put(Constants.MOVIE_ID_KEY, Integer.parseInt(movieID.trim()));
+                        jsonInner.put(Constants.MOVIE_TITLE_KEY, title.getText().toString().trim());
+                        jsonInner.put(Constants.MOVIE_OVERVIEW_KEY, synopsis.getText().toString().trim());
+                        jsonInner.put(Constants.MOVIE_RELEASE_KEY, date.getText().toString().trim());
+                        jsonInner.put(Constants.MOVIE_VOTE_AVG_KEY, Double.parseDouble((vote.getText()
                                 .toString().trim())));
-                        jsonInner.put(Movie.MOVIE_POSTER_PATH_KEY, posterPath.trim());
+                        jsonInner.put(Constants.MOVIE_POSTER_PATH_KEY, posterPath.trim());
 
                         jsonStr += jsonInner.toString().trim();
                         jsonStr += "]}"; // closing the json array and the json object
@@ -195,7 +192,7 @@ public class DetailsFragment extends Fragment {
                     }
 
                     Log.i(LOG_TAG, jsonStr);
-                    editor.putString(Movie.MOVIE_FAV_PREF_KEY, jsonStr);
+                    editor.putString(Constants.MOVIE_FAV_PREF_KEY, jsonStr);
                 }
                 /**
                  * this else is a first time to mark a fav,
@@ -204,20 +201,20 @@ public class DetailsFragment extends Fragment {
                  */
                 else {
                     try {
-                        jsonInner.put(Movie.MOVIE_ID_KEY, movieID.trim());
-                        jsonInner.put(Movie.MOVIE_TITLE_KEY, title.getText().toString().trim());
-                        jsonInner.put(Movie.MOVIE_OVERVIEW_KEY, synopsis.getText().toString().trim());
-                        jsonInner.put(Movie.MOVIE_RELEASE_KEY, date.getText().toString().trim());
-                        jsonInner.put(Movie.MOVIE_VOTE_AVG_KEY, Double.parseDouble((vote.getText()
+                        jsonInner.put(Constants.MOVIE_ID_KEY, movieID.trim());
+                        jsonInner.put(Constants.MOVIE_TITLE_KEY, title.getText().toString().trim());
+                        jsonInner.put(Constants.MOVIE_OVERVIEW_KEY, synopsis.getText().toString().trim());
+                        jsonInner.put(Constants.MOVIE_RELEASE_KEY, date.getText().toString().trim());
+                        jsonInner.put(Constants.MOVIE_VOTE_AVG_KEY, Double.parseDouble((vote.getText()
                                 .toString().trim())));
-                        jsonInner.put(Movie.MOVIE_POSTER_PATH_KEY, posterPath.trim());
+                        jsonInner.put(Constants.MOVIE_POSTER_PATH_KEY, posterPath.trim());
                         array.put(jsonInner);
-                        jsonObj.put(Movie.MOVIES_KEY, array);
+                        jsonObj.put(Constants.MOVIES_KEY, array);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    editor.putString(Movie.MOVIE_FAV_PREF_KEY, jsonObj.toString().trim());
+                    editor.putString(Constants.MOVIE_FAV_PREF_KEY, jsonObj.toString().trim());
                 }
                 editor.apply();
                 Toast.makeText(mContext, "Added to favorites", Toast.LENGTH_SHORT).show();
@@ -227,12 +224,12 @@ public class DetailsFragment extends Fragment {
 
     private void setDataIntoViews(Bundle arguments) {
         if (arguments != null) {
-            synopsis.setText(arguments.getString(Movie.MOVIE_OVERVIEW_KEY));
-            title.setText(arguments.getString(Movie.MOVIE_TITLE_KEY));
-            date.setText(arguments.getString(Movie.MOVIE_RELEASE_KEY));
-            vote.setText(arguments.getDouble(Movie.MOVIE_VOTE_AVG_KEY) + "");
-            movieID = "" + arguments.getInt(Movie.MOVIE_ID_KEY);
-            posterPath = arguments.getString(Movie.MOVIE_POSTER_PATH_KEY).trim();
+            synopsis.setText(arguments.getString(Constants.MOVIE_OVERVIEW_KEY));
+            title.setText(arguments.getString(Constants.MOVIE_TITLE_KEY));
+            date.setText(arguments.getString(Constants.MOVIE_RELEASE_KEY));
+            vote.setText(arguments.getDouble(Constants.MOVIE_VOTE_AVG_KEY) + "");
+            movieID = "" + arguments.getInt(Constants.MOVIE_ID_KEY);
+            posterPath = arguments.getString(Constants.MOVIE_POSTER_PATH_KEY).trim();
             Picasso.with(mContext).load(posterPath).into(poster);
         } else {
             Log.e(LOG_TAG, "Error getting extras!");

@@ -2,18 +2,9 @@ package io.donsaad.movies247.movies;
 
 import android.os.Bundle;
 
-public class Movie {
+import io.donsaad.movies247.utils.Constants;
 
-    public static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185";
-    public static final String MOVIE_OVERVIEW_KEY = "overview";
-    public static final String MOVIE_VOTE_AVG_KEY = "vote_average";
-    public static final String MOVIE_RELEASE_KEY = "release_date";
-    public static final String MOVIE_TITLE_KEY = "original_title";
-    public static final String MOVIE_POSTER_PATH_KEY = "poster_path";
-    public static final String MOVIES_KEY = "results";
-    public static final String MOVIE_FAV_PREF_KEY = "adult";
-    public static final String MOVIE_ADULT_KEY = "adult";
-    public static final String MOVIE_ID_KEY = "id";
+public class Movie {
 
     private String title;
     private String releaseDate;
@@ -25,12 +16,12 @@ public class Movie {
 
     public Bundle asBundle() {
         Bundle b = new Bundle();
-        b.putInt(MOVIE_ID_KEY, id);
-        b.putString(MOVIE_OVERVIEW_KEY, overview);
-        b.putString(MOVIE_RELEASE_KEY, releaseDate);
-        b.putString(MOVIE_TITLE_KEY, title);
-        b.putDouble(MOVIE_VOTE_AVG_KEY, voteAverage);
-        b.putString(MOVIE_POSTER_PATH_KEY, poster);
+        b.putInt(Constants.MOVIE_ID_KEY, id);
+        b.putString(Constants.MOVIE_OVERVIEW_KEY, overview);
+        b.putString(Constants.MOVIE_RELEASE_KEY, releaseDate);
+        b.putString(Constants.MOVIE_TITLE_KEY, title);
+        b.putDouble(Constants.MOVIE_VOTE_AVG_KEY, voteAverage);
+        b.putString(Constants.MOVIE_POSTER_PATH_KEY, poster);
         return b;
     }
 

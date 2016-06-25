@@ -1,6 +1,6 @@
 package io.donsaad.movies247.reviews;
 
-import io.donsaad.movies247.moviedetails.ListAdapter;
+import io.donsaad.movies247.moviedetails.MovieDetailsListAdapter;
 import io.donsaad.movies247.moviedetails.ListItem;
 
 /**
@@ -8,11 +8,6 @@ import io.donsaad.movies247.moviedetails.ListItem;
  * Review data model
  */
 public class Review implements ListItem {
-
-    public static final String REVIEW_JSON_KEY = "results";
-    public static final String REVIEW_AUTHOR_KEY = "author";
-    public static final String REVIEW_CONTENT_KEY = "content";
-    public static final String REVIEW_URL_KEY = "url";
 
     private String id;
     private String author;
@@ -53,6 +48,6 @@ public class Review implements ListItem {
 
     @Override
     public int getViewType() {
-        return ListAdapter.RowType.REVIEW_ITEM.ordinal();
+        return MovieDetailsListAdapter.RowType.REVIEW_ITEM.ordinal();
     }
 }

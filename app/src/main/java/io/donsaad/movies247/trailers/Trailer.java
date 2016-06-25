@@ -1,18 +1,13 @@
 package io.donsaad.movies247.trailers;
 
-import io.donsaad.movies247.moviedetails.ListAdapter;
+import io.donsaad.movies247.moviedetails.MovieDetailsListAdapter;
 import io.donsaad.movies247.moviedetails.ListItem;
 
 /**
  * Created by donsaad on 12/25/2015.
  * Trailer data model
  */
-public class Trailer implements ListItem{
-
-    public static final String TRAILER_JSON_KEY = "results";
-    public static final String TRAILER_ID_KEY = "id";
-    public static final String TRAILER_VIDEO_KEY = "key";
-    public static final String TRAILER_NAME_KEY = "name";
+public class Trailer implements ListItem {
 
     private String id;
     private String key;
@@ -62,6 +57,6 @@ public class Trailer implements ListItem{
 
     @Override
     public int getViewType() {
-        return ListAdapter.RowType.TRAILER_ITEM.ordinal();
+        return MovieDetailsListAdapter.RowType.TRAILER_ITEM.ordinal();
     }
 }

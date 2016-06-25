@@ -15,11 +15,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import io.donsaad.movies247.moviedetails.DetailsFragment;
+import java.util.ArrayList;
+
 import io.donsaad.movies247.networking.DataFetchTask;
 import io.donsaad.movies247.networking.OnDataFetchListener;
-
-import java.util.ArrayList;
+import io.donsaad.movies247.utils.Constants;
 
 /**
  * Created by donsaad on 1/15/2016.
@@ -56,12 +56,12 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle args = new Bundle();
-                args.putString(Movie.MOVIE_POSTER_PATH_KEY, moviesList.get(position).getPoster());
-                args.putString(Movie.MOVIE_OVERVIEW_KEY, moviesList.get(position).getOverview());
-                args.putString(Movie.MOVIE_RELEASE_KEY, moviesList.get(position).getReleaseDate());
-                args.putString(Movie.MOVIE_TITLE_KEY, moviesList.get(position).getTitle());
-                args.putDouble(Movie.MOVIE_VOTE_AVG_KEY, moviesList.get(position).getVoteAverage());
-                args.putInt(Movie.MOVIE_ID_KEY, moviesList.get(position).getId());
+                args.putString(Constants.MOVIE_POSTER_PATH_KEY, moviesList.get(position).getPoster());
+                args.putString(Constants.MOVIE_OVERVIEW_KEY, moviesList.get(position).getOverview());
+                args.putString(Constants.MOVIE_RELEASE_KEY, moviesList.get(position).getReleaseDate());
+                args.putString(Constants.MOVIE_TITLE_KEY, moviesList.get(position).getTitle());
+                args.putDouble(Constants.MOVIE_VOTE_AVG_KEY, moviesList.get(position).getVoteAverage());
+                args.putInt(Constants.MOVIE_ID_KEY, moviesList.get(position).getId());
                 ((Callback) getActivity()).onItemSelected(args);
             }
         });
@@ -101,10 +101,10 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
             dataFetchTask.execute(FETCH_MOVIES_BY_RATE);
         } else if (id == io.donsaad.movies247.R.id.action_sort_by_fav) {
             SharedPreferences preferences = getActivity()
-                    .getSharedPreferences(DetailsFragment.MOVIES_PREF_NAME,
+                    .getSharedPreferences(Constants.MOVIES_PREF_NAME,
                             Context.MODE_PRIVATE);
             MovieParser parser = new MovieParser();
-            moviesList = parser.parseJson(preferences.getString(Movie.MOVIE_FAV_PREF_KEY, null));
+            moviesList = parser.parseJson(preferences.getString(Constants.MOVIE_FAV_PREF_KEY, null));
             mGridView.setAdapter(new MovieGridAdapter(getContext(), moviesList));
             if(MoviesActivity.mTwoPane)
                 ((Callback)getActivity()).onItemSelected(moviesList.get(0).asBundle());

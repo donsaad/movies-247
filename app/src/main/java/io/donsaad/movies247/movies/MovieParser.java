@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.donsaad.movies247.utils.Constants;
+
 /**
  * Created by donsaad on 1/7/2016.
  * Parser class to parse JSON string of movies
@@ -20,18 +22,18 @@ public class MovieParser {
         JSONArray array;
         JSONObject object;
         try {
-            array = (new JSONObject(s)).getJSONArray(Movie.MOVIES_KEY);
+            array = (new JSONObject(s)).getJSONArray(Constants.MOVIES_KEY);
             movies = new ArrayList<>();
             for (int i = 0, length = array.length(); i < length; i++) {
                 object = array.getJSONObject(i);
                 movie = new Movie();
-                movie.setPoster(Movie.BASE_POSTER_URL +
-                        object.getString(Movie.MOVIE_POSTER_PATH_KEY));
-                movie.setOverview(object.getString(Movie.MOVIE_OVERVIEW_KEY));
-                movie.setVoteAverage(object.getDouble(Movie.MOVIE_VOTE_AVG_KEY));
-                movie.setReleaseDate(object.getString(Movie.MOVIE_RELEASE_KEY));
-                movie.setTitle(object.getString(Movie.MOVIE_TITLE_KEY));
-                movie.setId(object.getInt(Movie.MOVIE_ID_KEY));
+                movie.setPoster(Constants.MOVIE_BASE_POSTER_URL +
+                        object.getString(Constants.MOVIE_POSTER_PATH_KEY));
+                movie.setOverview(object.getString(Constants.MOVIE_OVERVIEW_KEY));
+                movie.setVoteAverage(object.getDouble(Constants.MOVIE_VOTE_AVG_KEY));
+                movie.setReleaseDate(object.getString(Constants.MOVIE_RELEASE_KEY));
+                movie.setTitle(object.getString(Constants.MOVIE_TITLE_KEY));
+                movie.setId(object.getInt(Constants.MOVIE_ID_KEY));
                 movies.add(movie);
             }
 

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by donsaad on 1/18/2016.
  * Adapter for trailers and reviews
  */
-public class ListAdapter extends BaseAdapter {
+public class MovieDetailsListAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<ListItem> items;
@@ -25,7 +25,7 @@ public class ListAdapter extends BaseAdapter {
         TRAILER_ITEM, REVIEW_ITEM
     }
 
-    public ListAdapter(Context context, ArrayList<ListItem> items) {
+    public MovieDetailsListAdapter(Context context, ArrayList<ListItem> items) {
         this.mContext = context;
         this.items = items;
     }

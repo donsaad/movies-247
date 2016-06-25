@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import io.donsaad.movies247.movies.Movie;
+import io.donsaad.movies247.utils.Constants;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -18,7 +19,7 @@ public class DetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            setTitle(extras.getString(Movie.MOVIE_TITLE_KEY));
+            setTitle(extras.getString(Constants.MOVIE_TITLE_KEY));
             DetailsFragment fragment = new DetailsFragment();
             fragment.setArguments(extras);
             getSupportFragmentManager().beginTransaction()
