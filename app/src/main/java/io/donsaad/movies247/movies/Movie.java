@@ -1,4 +1,4 @@
-package com.donsaad.movies247.movies;
+package io.donsaad.movies247.movies;
 
 import android.os.Bundle;
 

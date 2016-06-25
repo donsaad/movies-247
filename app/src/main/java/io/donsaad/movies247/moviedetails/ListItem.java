@@ -1,4 +1,4 @@
-package com.donsaad.movies247.moviedetails;
+package io.donsaad.movies247.moviedetails;
 
 /**
  * Created by donsaad on 1/18/2016.

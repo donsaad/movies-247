@@ -1,4 +1,4 @@
-package com.donsaad.movies247.movies;
+package io.donsaad.movies247.movies;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,10 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.donsaad.movies247.R;
-import com.donsaad.movies247.moviedetails.DetailsFragment;
-import com.donsaad.movies247.networking.DataFetchTask;
-import com.donsaad.movies247.networking.OnDataFetchListener;
+import io.donsaad.movies247.moviedetails.DetailsFragment;
+import io.donsaad.movies247.networking.DataFetchTask;
+import io.donsaad.movies247.networking.OnDataFetchListener;
 
 import java.util.ArrayList;
 
@@ -49,8 +48,8 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
-        mGridView = (GridView) rootView.findViewById(R.id.grid_movies);
+        View rootView = inflater.inflate(io.donsaad.movies247.R.layout.fragment_movies, container, false);
+        mGridView = (GridView) rootView.findViewById(io.donsaad.movies247.R.id.grid_movies);
 
         moviesList = new ArrayList<>();
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,21 +85,21 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(io.donsaad.movies247.R.menu.menu_main, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_sort_by_popular) {
+        if (id == io.donsaad.movies247.R.id.action_sort_by_popular) {
             DataFetchTask dataFetchTask = new DataFetchTask();
             dataFetchTask.setOnDataFetchListener(this);
             dataFetchTask.execute(FETCH_MOVIES_BY_POPULARITY);
-        } else if (id == R.id.action_sort_by_rate) {
+        } else if (id == io.donsaad.movies247.R.id.action_sort_by_rate) {
             DataFetchTask dataFetchTask = new DataFetchTask();
             dataFetchTask.setOnDataFetchListener(this);
             dataFetchTask.execute(FETCH_MOVIES_BY_RATE);
-        } else if (id == R.id.action_sort_by_fav) {
+        } else if (id == io.donsaad.movies247.R.id.action_sort_by_fav) {
             SharedPreferences preferences = getActivity()
                     .getSharedPreferences(DetailsFragment.MOVIES_PREF_NAME,
                             Context.MODE_PRIVATE);

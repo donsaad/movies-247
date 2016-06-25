@@ -5,7 +5,7 @@
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    tools:context=".movies.MoviesActivity">
+    tools:context="io.donsaad.movies247.movies.MoviesActivity">
 
     <!--
     two-pane layout.
@@ -16,7 +16,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
-        android:name="com.donsaad.movies247.movies.MoviesFragment"
+        android:name="io.donsaad.movies247.movies.MoviesFragment"
         tools:layout="@layout/fragment_movies" />
 
     <FrameLayout

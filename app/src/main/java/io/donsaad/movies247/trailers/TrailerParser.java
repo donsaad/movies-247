@@ -1,4 +1,4 @@
-package com.donsaad.movies247.trailers;
+package io.donsaad.movies247.trailers;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,7 +1,7 @@
-package com.donsaad.movies247.trailers;
+package io.donsaad.movies247.trailers;
 
-import com.donsaad.movies247.moviedetails.ListAdapter;
-import com.donsaad.movies247.moviedetails.ListItem;
+import io.donsaad.movies247.moviedetails.ListAdapter;
+import io.donsaad.movies247.moviedetails.ListItem;
 
 /**
  * Created by donsaad on 12/25/2015.

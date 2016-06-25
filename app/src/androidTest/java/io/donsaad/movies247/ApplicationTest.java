@@ -1,4 +1,4 @@
-package com.donsaad.movies247;
+package io.donsaad.movies247;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

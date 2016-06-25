@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.donsaad.movies247"
+        applicationId "io.donsaad.movies247"
         minSdkVersion 11
         targetSdkVersion 23
         versionCode 1

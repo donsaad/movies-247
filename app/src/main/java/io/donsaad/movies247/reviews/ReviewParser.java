@@ -1,6 +1,6 @@
-package com.donsaad.movies247.reviews;
+package io.donsaad.movies247.reviews;
 
-import com.donsaad.movies247.trailers.Trailer;
+import io.donsaad.movies247.trailers.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;

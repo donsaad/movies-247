@@ -1,13 +1,13 @@
-package com.donsaad.movies247.reviews;
+package io.donsaad.movies247.reviews;
 
-import com.donsaad.movies247.moviedetails.ListAdapter;
-import com.donsaad.movies247.moviedetails.ListItem;
+import io.donsaad.movies247.moviedetails.ListAdapter;
+import io.donsaad.movies247.moviedetails.ListItem;
 
 /**
  * Created by donsaad on 12/25/2015.
  * Review data model
  */
-public class Review implements ListItem{
+public class Review implements ListItem {
 
     public static final String REVIEW_JSON_KEY = "results";
     public static final String REVIEW_AUTHOR_KEY = "author";
