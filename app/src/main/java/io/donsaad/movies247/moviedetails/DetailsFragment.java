@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.donsaad.movies247.R;
 import io.donsaad.movies247.networking.DataFetchTask;
 import io.donsaad.movies247.networking.OnDataFetchListener;
 import io.donsaad.movies247.reviews.Review;
@@ -68,7 +69,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(io.donsaad.movies247.R.layout.fragment_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         init(rootView);
 
         Bundle arguments = getArguments();
@@ -134,14 +135,14 @@ public class DetailsFragment extends Fragment {
         trailers = new ArrayList<>();
         posterPath = null;
 
-        listView = (ListView) rootView.findViewById(io.donsaad.movies247.R.id.lv_trailers_reviews);
-        listView.addHeaderView(View.inflate(mContext, io.donsaad.movies247.R.layout.list_header_details, null));
-        synopsis = (TextView) listView.findViewById(io.donsaad.movies247.R.id.tv_overview);
-        title = (TextView) listView.findViewById(io.donsaad.movies247.R.id.tv_title_detail);
-        date = (TextView) listView.findViewById(io.donsaad.movies247.R.id.tv_release_date);
-        vote = (TextView) listView.findViewById(io.donsaad.movies247.R.id.tv_vote);
-        fav = (Button) listView.findViewById(io.donsaad.movies247.R.id.btn_fav);
-        poster = (ImageView) listView.findViewById(io.donsaad.movies247.R.id.img_poster);
+        listView = (ListView) rootView.findViewById(R.id.lv_trailers_reviews);
+        listView.addHeaderView(View.inflate(mContext, R.layout.list_header_details, null));
+        synopsis = (TextView) listView.findViewById(R.id.tv_overview);
+        title = (TextView) listView.findViewById(R.id.tv_title_detail);
+        date = (TextView) listView.findViewById(R.id.tv_release_date);
+        vote = (TextView) listView.findViewById(R.id.tv_vote);
+        fav = (Button) listView.findViewById(R.id.btn_fav);
+        poster = (ImageView) listView.findViewById(R.id.img_poster);
         /**
          * listeners for views
          */

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import io.donsaad.movies247.R;
 import io.donsaad.movies247.moviedetails.DetailsActivity;
 import io.donsaad.movies247.moviedetails.DetailsFragment;
 
@@ -14,13 +15,13 @@ public class MoviesActivity extends AppCompatActivity implements MoviesFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(io.donsaad.movies247.R.layout.activity_movies);
+        setContentView(R.layout.activity_movies);
 
-        if(findViewById(io.donsaad.movies247.R.id.movie_detail_container) != null) {
+        if(findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;
             if(savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(io.donsaad.movies247.R.id.movie_detail_container, new DetailsFragment())
+                        .replace(R.id.movie_detail_container, new DetailsFragment())
                         .commit();
             }
         }
@@ -36,7 +37,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesFragment.
             DetailsFragment fragment = new DetailsFragment();
             fragment.setArguments(data);
             getSupportFragmentManager().beginTransaction()
-                    .replace(io.donsaad.movies247.R.id.movie_detail_container, fragment)
+                    .replace(R.id.movie_detail_container, fragment)
                     .commit();
         }
         else {
