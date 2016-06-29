@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Movies table
     public static final String TABLE_MOVIE = "movie";
     private static final String CREATE_TABLE_MOVIE = "create table " + TABLE_MOVIE + " (" +
-            Constants.MOVIE_ID_KEY + "integer primary key autoincrement, " +
+            Constants.MOVIE_ID_KEY + " integer primary key autoincrement, " +
             Constants.MOVIE_OVERVIEW_KEY + " text not null, " +
             Constants.MOVIE_TITLE_KEY + " text not null, " +
             Constants.MOVIE_POSTER_PATH_KEY + " text not null, " +

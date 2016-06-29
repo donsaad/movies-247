@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import io.donsaad.movies247.R;
+import io.donsaad.movies247.database.DatabaseSource;
 import io.donsaad.movies247.networking.DataFetchTask;
 import io.donsaad.movies247.networking.OnDataFetchListener;
 import io.donsaad.movies247.utils.Constants;
@@ -33,6 +35,7 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
 
     private ArrayList<Movie> moviesList;
     private GridView mGridView;
+    private Context mContext;
 
     public MoviesFragment() {}
 
@@ -43,6 +46,7 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
         DataFetchTask dataFetchTask = new DataFetchTask();
         dataFetchTask.setOnDataFetchListener(this);
         dataFetchTask.execute(FETCH_MOVIES_BY_POPULARITY);
+        mContext = getActivity();
     }
 
     @Nullable
@@ -101,12 +105,11 @@ public class MoviesFragment extends Fragment implements OnDataFetchListener {
             dataFetchTask.setOnDataFetchListener(this);
             dataFetchTask.execute(FETCH_MOVIES_BY_RATE);
         } else if (id == R.id.action_sort_by_fav) {
-            SharedPreferences preferences = getActivity()
-                    .getSharedPreferences(Constants.MOVIES_PREF_NAME,
-                            Context.MODE_PRIVATE);
-            MovieParser parser = new MovieParser();
-            moviesList = parser.parseJson(preferences.getString(Constants.MOVIE_FAV_PREF_KEY, null));
-            mGridView.setAdapter(new MovieGridAdapter(getContext(), moviesList));
+            DatabaseSource source = new DatabaseSource(mContext);
+            moviesList = (ArrayList<Movie>) source.getFavorites();
+            if(moviesList != null)
+                mGridView.setAdapter(new MovieGridAdapter(mContext, moviesList));
+            else Toast.makeText(mContext, "You have no saved favorites.", Toast.LENGTH_SHORT).show();
             if(MoviesActivity.mTwoPane)
                 ((Callback)getActivity()).onItemSelected(moviesList.get(0).asBundle());
         }
