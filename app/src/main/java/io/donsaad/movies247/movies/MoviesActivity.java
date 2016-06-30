@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import io.donsaad.movies247.R;
 import io.donsaad.movies247.moviedetails.DetailsActivity;
 import io.donsaad.movies247.moviedetails.DetailsFragment;
+import io.donsaad.movies247.utils.Constants;
 
 public class MoviesActivity extends AppCompatActivity implements MoviesFragment.Callback {
 
@@ -32,17 +33,17 @@ public class MoviesActivity extends AppCompatActivity implements MoviesFragment.
 
 
     @Override
-    public void onItemSelected(Bundle data) {
+    public void onItemSelected(Movie selectedMovie) {
         if(mTwoPane) {
             DetailsFragment fragment = new DetailsFragment();
-            fragment.setArguments(data);
+            fragment.setArguments(selectedMovie.asBundle());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.movie_detail_container, fragment)
                     .commit();
         }
         else {
-            Intent intent = new Intent(this, DetailsActivity.class)
-                    .putExtras(data);
+            Intent intent = new Intent(this, DetailsActivity.class);
+                    intent.putExtra(Constants.MOVIE_PARCEL_KEY, selectedMovie);
             startActivity(intent);
         }
     }

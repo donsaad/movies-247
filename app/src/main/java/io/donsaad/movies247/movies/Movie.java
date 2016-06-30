@@ -1,10 +1,12 @@
 package io.donsaad.movies247.movies;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import io.donsaad.movies247.utils.Constants;
 
-public class Movie {
+public class Movie implements Parcelable {
 
     private String title;
     private String releaseDate;
@@ -80,5 +82,44 @@ public class Movie {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(releaseDate);
+        dest.writeString(overview);
+        dest.writeString(poster);
+        dest.writeInt(id);
+        dest.writeDouble(voteAverage);
+    }
+
+    public Movie(Parcel p) {
+        title = p.readString();
+        releaseDate = p.readString();
+        overview = p.readString();
+        poster = p.readString();
+        id = p.readInt();
+        voteAverage = p.readDouble();
+    }
+
+    public Movie() {}
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
 }
