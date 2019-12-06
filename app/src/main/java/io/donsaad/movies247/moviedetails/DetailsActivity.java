@@ -1,8 +1,10 @@
 package io.donsaad.movies247.moviedetails;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import io.donsaad.movies247.R;
 import io.donsaad.movies247.movies.Movie;
